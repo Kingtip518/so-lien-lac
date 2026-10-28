@@ -235,6 +235,22 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .check.lam-moi{align-items:flex-start;background:var(--warn-soft);border:1px solid var(--warn);border-radius:10px;padding:10px 12px;font-weight:400;font-size:14px}.check.lam-moi input{margin-top:3px;flex:none}
 .goiy{background:var(--good-soft);border-radius:10px;padding:10px 12px;font-size:14px}
 
+.hd-dau h2{margin-bottom:4px}
+.hd-ngay{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;font-size:14px}
+.hd-ngay span{background:var(--accent-soft);color:var(--accent-deep);border-radius:999px;padding:5px 12px}
+details.hd{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+details.hd summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:14px 16px}
+details.hd summary::-webkit-details-marker{display:none}
+details.hd summary::after{content:"";margin-left:auto;flex:none;width:10px;height:10px;border-right:2.5px solid var(--muted);border-bottom:2.5px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+details.hd[open] summary::after{transform:rotate(-135deg)}
+details.hd[open] summary{border-bottom:1px solid var(--line);background:var(--accent-soft)}
+.hd-so{flex:none;width:34px;height:34px;border-radius:50%;background:var(--top);color:#fff;display:grid;place-items:center;font-weight:700;border:2px solid var(--warm)}
+.hd-td{display:flex;flex-direction:column;min-width:0}
+.hd-td b{font-size:16px}.hd-td small{color:var(--muted);font-size:13px}
+.hd-than{padding:6px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.hd-than ol{margin:6px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.hd-than p{margin:0}
+
 .top .state.tk{cursor:pointer}
 .top .state.tk.sap{background:var(--warm);color:var(--warm-ink);border-color:var(--warm)}
 .banner{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-radius:12px;padding:12px 14px;font-size:14px}
@@ -275,6 +291,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
     <button data-tab="so">Sổ theo dõi</button>
     <button data-tab="lop">Trường & lớp</button>
     <button data-tab="mau">Mẫu tin</button>
+    <button data-tab="huongdan">Hướng dẫn</button>
   </nav>
 </div></div>
 <div id="navPhone" aria-label="Điều hướng">
@@ -356,8 +373,10 @@ function hoa(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s}
 function hoso(){return D.hoso.hoso||{giaoVien:"",xungHo:"cô"}}
 function lopHT(){return lopId&&D.lop[lopId]?Object.assign({id:lopId},D.lop[lopId]):null}
 function truongTen(id){return (D.truong[id]||{}).ten||""}
-// Tên gọi của con: tên gọi ở nhà nếu có; không thì lấy 2 chữ cuối với tên 4 chữ trở lên (Nguyễn Thị Thảo Nguyên → Thảo Nguyên), còn lại lấy chữ cuối
-function tenGoi(h){if(h.biDanh)return h.biDanh;var p=h.ten.trim().split(/\s+/);return p.length>=4?p.slice(-2).join(" "):p[p.length-1]}
+// Gọi con bằng tên đệm + tên ("Nguyễn Nam Anh" → "Nam Anh"). Tên đệm Thị, Văn thì chỉ gọi tên ("Trần Văn Nam" → "Nam").
+// Họ tên chỉ 2 chữ thì gọi tên ("Lê Na" → "Na"). Cô đặt "Tên gọi" riêng cho em nào thì dùng tên đó.
+function tenGoi(h){if(h.biDanh)return h.biDanh;var p=String(h.ten||"").replace(/\([^)]*\)/g," ").trim().split(/\s+/);if(p.length<3)return p[p.length-1]||"";
+  var dem=p[p.length-2];return /^(thị|văn)$/i.test(dem)?p[p.length-1]:p.slice(-2).join(" ")}
 // Cách xưng với phụ huynh: "mẹ Thảo Nguyên", "bố Thảo Nguyên", "bà Thảo Nguyên"
 function xungPH(h){return (h.quanHe||"phụ huynh")+" "+tenGoi(h)}
 function hsLop(){return vals("hocsinh").filter(function(h){return h.lop===lopId}).sort(function(a,b){return a.ten.localeCompare(b.ten,"vi")})}
@@ -384,6 +403,85 @@ async function boot(){
 }
 
 function chuLop(t){t=String(t||"").trim();return /^lớp\b/i.test(t)?"lớp "+t.replace(/^lớp\s*/i,""):"lớp "+t}
+
+/* ===== HƯỚNG DẪN SỬ DỤNG ===== */
+function rHuongDan(){
+  var coLop=!!(D.hoso.hoso&&vals("lop").length);
+  var dongBo=typeof dangNhapGoogle==="function"&&typeof coCauHinhMay==="function"&&coCauHinhMay();
+  var banMienPhi=typeof saoLuu==="function";
+  function muc(id,tieuDe,tom,than,tabMo,chuMo){
+    return '<details class="hd" id="hd-'+id+'"><summary><span class="hd-so">'+tieuDe[0]+'</span><span class="hd-td"><b>'+tieuDe[1]+'</b><small>'+tom+'</small></span></summary><div class="hd-than">'+than+
+      (tabMo&&coLop?'<div class="row"><button class="btn small primary" data-mo="'+tabMo+'">'+chuMo+'</button></div>':'')+'</div></details>'}
+  var dl=dongBo?
+    '<ol><li>Bấm nhãn trạng thái ở góc trên (<b>"Chưa đồng bộ · Đăng nhập"</b>), chọn <b>Đăng nhập Google</b> và chọn Gmail của cô.</li>'+
+    '<li>Nhãn đổi thành <b>"Đã đồng bộ"</b> là dữ liệu đã lên tài khoản.</li>'+
+    '<li>Trên máy khác (điện thoại, máy ở trường): mở trang, bấm <b>Đăng nhập Google</b> và chọn <b>đúng Gmail đó</b>. Mọi lớp, học sinh, sổ theo dõi hiện ra giống hệt.</li>'+
+    '<li>Sửa ở máy nào thì vài giây sau máy kia cũng có. Mất mạng vẫn dùng bình thường, có mạng lại tự gửi lên.</li>'+
+    '<li>Dùng máy chung ở trường thì nhớ <b>Đăng xuất</b> khi xong việc (bấm nhãn ở góc trên). Đăng xuất chỉ xóa bản trên máy đó, dữ liệu trong tài khoản vẫn còn.</li></ol>'+
+    '<p class="note">Trên điện thoại, mở trang bằng <b>Chrome</b> hoặc <b>Safari</b>. Mở từ bên trong Zalo hay Facebook thì Google thường không cho đăng nhập.</p>'
+   :(banMienPhi?
+    '<ol><li>Chưa đăng nhập thì dữ liệu chỉ nằm trên trình duyệt của máy đang dùng.</li><li>Mỗi tuần bấm nhãn ở góc trên, chọn <b>Tải tệp sao lưu</b>, rồi cất tệp vào Google Drive hoặc gửi Zalo cho chính mình.</li><li>Đổi máy: mở trang trên máy mới, chọn <b>Khôi phục từ tệp</b>.</li></ol>'
+   :'<ol><li>Dữ liệu tự lưu vào tài khoản của cô, mở lại trang trên máy nào cũng thấy.</li></ol>');
+  if(banMienPhi&&dongBo)dl+='<p>Ngoài ra cô vẫn nên thỉnh thoảng <b>Tải tệp sao lưu</b> để cất riêng một bản.</p>';
+  $("#main").innerHTML='<div class="card hd-dau"><h2>Hướng dẫn sử dụng</h2><p class="note">Bấm vào từng mục để xem cách làm. Lần đầu dùng, cô làm mục 1 và 2. Sau đó mỗi ngày chỉ dùng mục 3, 4 và 5.</p>'+
+    '<div class="hd-ngay"><b>Một ngày của cô với sổ:</b><span>Đầu giờ <b>Điểm danh</b></span><span>Trong ngày bấm <b>Nhắn PH</b> ghi việc từng em</span><span>Cuối ngày gửi <b>Cả lớp</b> vào nhóm Zalo</span><span>Cuối tuần gửi <b>Thư cuối tuần</b></span></div></div>'+
+  muc("batdau",["1","Khai báo cô và lớp"],"Làm một lần khi mới dùng",
+    '<ol><li>Vào <b>Trường & lớp</b> (trên điện thoại: bấm <b>Thêm</b> → <b>Trường & lớp</b>).</li>'+
+    '<li>Ở thẻ tên cô, bấm <b>Sửa</b>: điền họ tên, cách xưng hô (cô, thầy) và lời ký cuối tin nhắn.</li>'+
+    '<li>Bấm <b>+ Trường</b> để thêm trường, rồi <b>+ Lớp</b> để thêm lớp: tên lớp, chủ nhiệm hay dạy môn gì.</li>'+
+    '<li>Dạy nhiều lớp, nhiều trường thì thêm đủ. Lớp đang làm việc chọn ở <b>ô chọn lớp</b> trên đầu trang.</li></ol>'+
+    '<p class="note">Muốn thử trước khi nhập thật: ở màn hình chào bấm <b>Xem thử với lớp mẫu</b>. Thử xong, vào nhãn ở góc trên → <b>Xóa toàn bộ dữ liệu</b> để làm lại từ đầu.</p>',"lop","Mở Trường & lớp")+
+  muc("danhsach",["2","Đưa danh sách học sinh vào"],"Tải tệp Excel của trường, không nhập tay",
+    '<ol><li>Vào <b>Trường & lớp</b>, chọn đúng lớp ở ô trên đầu trang.</li>'+
+    '<li>Bấm <b>Cập nhật từ trang tính của trường</b>.</li>'+
+    '<li><b>Cách 1:</b> chọn tệp Excel (.xlsx) hoặc .csv mà trường gửi. <b>Cách 2:</b> mở trang tính, bôi đen bảng (cả dòng tiêu đề), sao chép rồi dán vào ô.</li>'+
+    '<li>Sổ tự nhận ra cột họ tên học sinh, họ tên bố, mẹ, số điện thoại. Cô xem lại phần <b>ghép cột</b>, cột nào sai thì chọn lại cho đúng.</li>'+
+    '<li>Bấm <b>Áp dụng</b>. Lần sau cập nhật, sổ nhớ cách ghép cột của lớp này, chỉ báo em nào thêm, em nào thay đổi.</li></ol>'+
+    '<p><b>Muốn xóa danh sách cũ để nạp lại từ đầu:</b> tích ô <b>Làm mới hoàn toàn</b> trước khi áp dụng, hoặc bấm <b>Xóa hết học sinh lớp này</b>.</p>'+
+    '<p class="note">Mỗi em, sổ chọn phụ huynh có số điện thoại để nhắn; có cả bố và mẹ thì ưu tiên mẹ. Muốn đổi người nhận, bấm vào tên em trong danh sách để sửa. Thêm lẻ một em: <b>+ Thêm 1 em</b>.</p>',"lop","Mở Trường & lớp")+
+  muc("diemdanh",["3","Điểm danh"],"Đầu giờ, chưa đầy một phút",
+    '<ol><li>Mở <b>Điểm danh</b>. Mặc định cả lớp có mặt.</li>'+
+    '<li>Em nào nghỉ thì bấm <b>Phép</b> (nghỉ có phép) hoặc <b>Không</b> (nghỉ không phép).</li>'+
+    '<li>Bấm <b>Lưu điểm danh</b>.</li>'+
+    '<li>Em nghỉ không phép sẽ có sẵn tin hỏi thăm gia đình trong mục <b>Nhắn PH</b>, ở phần <b>Tin chờ gửi hôm nay</b>.</li></ol>'+
+    '<p class="note">Điểm danh ngày khác: đổi ngày ở ô ngày phía trên.</p>',"diemdanh","Mở Điểm danh")+
+  muc("nhan",["4","Nhắn phụ huynh qua Zalo"],"Việc dùng nhiều nhất trong ngày",
+    '<ol><li>Mở <b>Nhắn PH</b>. <b>Tích một hoặc nhiều em</b> trong danh sách (gõ tên vào ô tìm cho nhanh).</li>'+
+    '<li>Chọn nhóm việc, rồi chọn <b>sự việc</b>: chưa làm bài, quên đồ dùng, tiến bộ, được khen, nhắc nộp tiền…</li>'+
+    '<li>Sổ tự soạn <b>một tin riêng cho từng nhà</b>, gọi đúng "Mẹ Thảo Nguyên ơi", "Bố Minh Anh ơi". Cô đọc lại, sửa nếu muốn.</li>'+
+    '<li>Bấm <b>Gửi qua Zalo</b> ở từng tin: sổ <b>sao chép sẵn tin</b> và mở đúng khung chat với phụ huynh đó.</li>'+
+    '<li>Trong Zalo, <b>dán</b> tin vào ô nhắn (điện thoại: chạm giữ ô nhắn → <b>Dán</b>; máy tính: <b>Ctrl + V</b>) rồi gửi.</li>'+
+    '<li>Bấm <b>Ghi sổ … em</b> để lưu việc vào sổ theo dõi và đánh dấu đã gửi. Chưa muốn gửi thì bấm <b>Chỉ ghi sổ, chưa gửi</b>.</li></ol>'+
+    '<p class="note">Zalo không cho trang web khác điền sẵn chữ vào ô nhắn, nên cô cần bấm Dán một lần. Nút Gửi qua Zalo bị mờ nghĩa là em đó chưa có số điện thoại phụ huynh.</p>',"nhan","Mở Nhắn phụ huynh")+
+  muc("calop",["5","Tin nhóm lớp và thông báo"],"Cuối ngày gửi một tin chung",
+    '<ol><li>Mở <b>Cả lớp</b>. Sổ soạn sẵn <b>Tin tóm tắt gửi nhóm lớp</b>: sĩ số, việc chung, lời khen.</li>'+
+    '<li>Lần đầu, bấm <b>Thêm đường dẫn nhóm Zalo</b> và dán link nhóm (Zalo → mở nhóm → Thông tin nhóm → Link tham gia nhóm).</li>'+
+    '<li>Từ đó chỉ cần bấm <b>Gửi vào nhóm Zalo lớp</b> rồi dán tin.</li>'+
+    '<li>Việc cần thu, cần nộp (bảo hiểm y tế, giấy tờ, xác nhận dã ngoại): bấm <b>+ Thông báo</b>, sau đó tích từng em đã nộp. Bấm <b>Tin nhắc … nhà</b> để có tin nhắc riêng cho những nhà chưa nộp.</li></ol>'+
+    '<p class="note">Tin nhóm không bao giờ nêu tên em có việc chưa tốt. Việc riêng của từng con chỉ đi tin riêng, để giữ thể diện cho các con.</p>',"calop","Mở Cả lớp")+
+  muc("tuan",["6","Thư cuối tuần"],"Mỗi nhà một lá thư, tự tổng hợp",
+    '<ol><li>Vào <b>Thư cuối tuần</b> (điện thoại: <b>Thêm</b> → <b>Thư cuối tuần</b>).</li>'+
+    '<li>Sổ tự tổng hợp 7 ngày qua từ điểm danh và sổ theo dõi, viết thư cho <b>từng nhà</b>, kể cả em không có việc gì.</li>'+
+    '<li>Cô đọc lại, bấm <b>Sao chép</b> rồi gửi Zalo cho từng phụ huynh.</li></ol>',"tuan","Mở Thư cuối tuần")+
+  muc("so",["7","Sổ theo dõi"],"Xem lại mọi việc đã ghi",
+    '<ol><li>Mở <b>Sổ</b> để xem các việc đã ghi theo ngày, lọc theo từng em.</li>'+
+    '<li>Phần <b>Em nào cần để ý</b> liệt kê em có từ 3 việc chưa tốt trong 30 ngày. Với các em này, cô nên gọi điện hoặc hẹn gặp phụ huynh thay vì nhắn từng việc.</li>'+
+    '<li>Ghi nhầm thì bấm <b>Xóa</b> ở dòng đó.</li></ol>',"so","Mở Sổ theo dõi")+
+  muc("mau",["8","Sửa mẫu tin nhắn theo giọng của cô"],"Tin nghe như chính cô viết",
+    '<ol><li>Vào <b>Mẫu tin</b> (điện thoại: <b>Thêm</b> → <b>Mẫu tin nhắn</b>).</li>'+
+    '<li>Chọn sự việc, sửa câu chữ theo cách cô hay nói. Giữ nguyên các chỗ trong ngoặc nhọn: <b>{ph}</b> là cách gọi phụ huynh (Mẹ Thảo Nguyên), <b>{hs}</b> là con, <b>{co}</b> là cách cô xưng.</li>'+
+    '<li>Bấm <b>+ Mẫu mới</b> để thêm sự việc riêng mà lớp mình hay gặp. Mẫu nào không dùng thì ẩn đi cho gọn.</li></ol>',"mau","Mở Mẫu tin")+
+  muc("dulieu",["9","Dùng trên cả điện thoại và máy tính"],dongBo?"Đăng nhập Google, dữ liệu tự đồng bộ":"Giữ dữ liệu an toàn",dl,"","")+
+  muc("hoi",["?","Câu hỏi hay gặp"],"Khi có gì đó không như ý",
+    '<p><b>Bấm Gửi qua Zalo mà mở Zalo trên web, không mở ứng dụng?</b><br>Máy tính cần cài Zalo PC. Điện thoại cần cài ứng dụng Zalo và mở trang bằng Chrome hoặc Safari.</p>'+
+    '<p><b>Mở Zalo rồi mà không thấy tin?</b><br>Tin đã được sao chép sẵn, cô chỉ cần chạm giữ ô nhắn → <b>Dán</b> (máy tính: Ctrl + V).</p>'+
+    '<p><b>Phụ huynh không dùng Zalo bằng số trong danh sách?</b><br>Bấm vào tên em ở mục Trường & lớp, sửa số điện thoại hoặc chọn người nhận khác.</p>'+
+    '<p><b>Số điện thoại bị đưa nhầm vào cột khác khi tải danh sách?</b><br>Ở bước ghép cột, chọn lại đúng cột "số điện thoại" rồi áp dụng. Lần sau sổ nhớ cách ghép này.</p>'+
+    (dongBo?'<p><b>Điện thoại không thấy dữ liệu như máy tính?</b><br>Kiểm tra hai máy đăng nhập <b>cùng một Gmail</b> (bấm nhãn ở góc trên để xem tài khoản), và nhãn hiện "Đã đồng bộ".</p>':'')+
+    '<p><b>Trang chưa hiện bản mới?</b><br>Máy tính bấm Ctrl + F5. Điện thoại đóng hẳn thẻ trang rồi mở lại.</p>',"","");
+  document.querySelectorAll("[data-mo]").forEach(function(b){b.onclick=function(){chonTab(b.dataset.mo)}});
+}
+
 
 /* ===== BẢN MIỄN PHÍ: dữ liệu nằm trên trình duyệt của cô ===== */
 function layNgay(k){try{var v=localStorage.getItem(LS+k);return v?new Date(v):null}catch(e){return null}}
@@ -534,7 +632,7 @@ function soanTin(h,sk,chiTiet,loiCo){
 }
 
 /* điều hướng */
-var TAB_THEM={tuan:1,lop:1,mau:1};
+var TAB_THEM={tuan:1,lop:1,mau:1,huongdan:1};
 function chonTab(t){tab=t;document.querySelectorAll("#nav button").forEach(function(x){x.classList.toggle("on",x.dataset.tab===t)});
   document.querySelectorAll("#navPhone button").forEach(function(x){x.classList.toggle("on",!!(x.dataset.tab===t||(x.dataset.tab==="them"&&TAB_THEM[t])))});
   var sh=$("#sheetThem");if(sh)sh.remove();window.scrollTo(0,0);render()}
@@ -543,7 +641,7 @@ document.querySelectorAll("#navPhone button").forEach(function(b){b.onclick=func
   if(b.dataset.tab!=="them"){chonTab(b.dataset.tab);return}
   var sh=$("#sheetThem");if(sh){sh.remove();return}
   var d=document.createElement("div");d.id="sheetThem";d.className="sheet";
-  d.innerHTML=[["tuan","Thư cuối tuần"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  d.innerHTML=[["tuan","Thư cuối tuần"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"],["huongdan","Hướng dẫn sử dụng"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
   document.body.appendChild(d);d.querySelectorAll("[data-t]").forEach(function(x){x.onclick=function(){if(x.dataset.t==="saoluu"){var sh=$("#sheetThem");if(sh)sh.remove();moDuLieu();return}chonTab(x.dataset.t)}})}});
 // Đường dẫn mở Zalo với một số điện thoại; trả về null nếu số không hợp lệ
 function zaloLink(sdt){var d=String(sdt||"").replace(/\D/g,"");if(d.length<9)return null;if(d.charAt(0)==="0")d="84"+d.slice(1);return"https://zalo.me/"+d}
@@ -584,12 +682,13 @@ function render(){
   veLopSel();var m=$("#main");
   var H=hoso();var thu=["Chủ nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"][new Date().getDay()];
   $("#hello").innerHTML=H.giaoVien?'Chào <b>'+esc(H.xungHo+" "+H.giaoVien)+'</b> · '+thu+', '+ngayVN(today()):"";
+  if(tab==="huongdan"){rHuongDan();return}
   if(!D.hoso.hoso||!vals("lop").length){
     m.innerHTML='<div class="hero"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="6" width="30" height="36" rx="5" fill="var(--accent)"/><rect x="10" y="12" width="18" height="2.5" rx="1.25" fill="#fff" opacity=".9"/><rect x="10" y="18" width="14" height="2.5" rx="1.25" fill="#fff" opacity=".9"/><rect x="10" y="24" width="16" height="2.5" rx="1.25" fill="#fff" opacity=".9"/><path d="M26 26h16a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-7l-5 4v-4h-4a4 4 0 0 1-4-4v-8a4 4 0 0 1 4-4z" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><circle cx="30" cy="34" r="1.8" fill="var(--accent)"/><circle cx="35" cy="34" r="1.8" fill="var(--accent)"/><circle cx="40" cy="34" r="1.8" fill="var(--accent)"/></svg>'+
       '<h2>Mỗi ngày, cô chỉ cần chạm vài lần.<br>Phần còn lại để sổ lo.</h2><p>Điểm danh, ghi việc từng em, tin nhắn gửi đúng phụ huynh với giọng của cô, tin nhóm cuối ngày, thư cuối tuần cho từng nhà. Dùng cho nhiều lớp ở nhiều trường, cả chủ nhiệm lẫn bộ môn.</p>'+
-      '<div class="row">'+(canWrite?'<button class="btn primary" id="btnHoso">Bắt đầu: khai báo cô và lớp</button><button class="btn" id="btnMau">Xem thử với lớp mẫu</button>'+(coCauHinhMay()&&!NGUOI?'<button class="btn" id="btnGg">Đã dùng trên máy khác? Đăng nhập Google</button>':''):'<span class="note">Bạn đang ở chế độ chỉ xem.</span>')+'</div></div>'+
+      '<div class="row">'+(canWrite?'<button class="btn primary" id="btnHoso">Bắt đầu: khai báo cô và lớp</button><button class="btn" id="btnMau">Xem thử với lớp mẫu</button>'+(coCauHinhMay()&&!NGUOI?'<button class="btn" id="btnGg">Đã dùng trên máy khác? Đăng nhập Google</button>':''):'<span class="note">Bạn đang ở chế độ chỉ xem.</span>')+'<button class="btn" id="btnHD">Hướng dẫn sử dụng</button></div></div>'+
       '<div class="feats"><div class="feat"><b>Nhắn đúng người, đúng giọng</b><span>"Mẹ Thảo Nguyên ơi…" — máy soạn, cô chỉ bấm gửi qua Zalo.</span></div><div class="feat"><b>Không quên việc nào</b><span>Điểm danh, chưa nộp tiền, chưa gửi tin: tất cả hiện thành việc chờ.</span></div><div class="feat"><b>Giữ thể diện cho con</b><span>Việc chưa tốt đi tin riêng; tin nhóm chỉ có số liệu và lời khen.</span></div><div class="feat"><b>Danh sách từ trường</b><span>Cập nhật từ trang tính của trường, không nhập tay.</span></div></div>';
-    var b1=$("#btnHoso");if(b1)b1.onclick=function(){formHoso(function(){formLop()})};var b2=$("#btnMau");if(b2)b2.onclick=napMau;var b3=$("#btnGg");if(b3)b3.onclick=dangNhapGoogle;return}
+    var b1=$("#btnHoso");if(b1)b1.onclick=function(){formHoso(function(){formLop()})};var b2=$("#btnMau");if(b2)b2.onclick=napMau;var b3=$("#btnGg");if(b3)b3.onclick=dangNhapGoogle;var b4=$("#btnHD");if(b4)b4.onclick=function(){chonTab("huongdan")};return}
   ({diemdanh:rDiemDanh,nhan:rNhan,calop:rCaLop,tuan:rTuan,so:rSo,lop:rLop,mau:rMau})[tab]();ganNhacSaoLuu();setState();
 }
 
@@ -788,7 +887,7 @@ function formLop(id){
 }
 function formHS(id){
   var o=id?D.hocsinh[id]:{};
-  var body='<div class="grid2"><div class="field"><label>Họ tên học sinh *</label><input id="fTen" value="'+esc(o.ten)+'"></div><div class="field"><label>Tên gọi ở nhà</label><input id="fBd" value="'+esc(o.biDanh)+'" placeholder="để trống thì lấy tên cuối"></div><div class="field"><label>Phụ huynh là</label><select id="fQh">'+["mẹ","bố","ông","bà","phụ huynh"].map(function(q){return'<option'+((o.quanHe||"mẹ")===q?" selected":"")+'>'+q+'</option>'}).join("")+'</select></div><div class="field"><label>Tên phụ huynh</label><input id="fPh" value="'+esc(o.phuHuynh)+'"></div><div class="field"><label>Số điện thoại / Zalo</label><input id="fSdt" value="'+esc(o.sdt)+'" inputmode="tel"></div><div class="field"><label>Địa chỉ</label><input id="fDc" value="'+esc(o.diaChi)+'"></div><div class="field"><label>Ngày sinh</label><input id="fNs" value="'+esc(o.ngaySinh)+'" placeholder="dd/mm/yyyy"></div><div class="field"><label>Liên hệ thứ hai (bố/mẹ còn lại, số điện thoại)</label><input id="fLh2" value="'+esc(o.lienHe2)+'"></div></div><p class="err" id="fErr"></p>';
+  var body='<div class="grid2"><div class="field"><label>Họ tên học sinh *</label><input id="fTen" value="'+esc(o.ten)+'"></div><div class="field"><label>Tên gọi ở nhà</label><input id="fBd" value="'+esc(o.biDanh)+'" placeholder="để trống thì gọi tên đệm + tên, ví dụ Nam Anh"></div><div class="field"><label>Phụ huynh là</label><select id="fQh">'+["mẹ","bố","ông","bà","phụ huynh"].map(function(q){return'<option'+((o.quanHe||"mẹ")===q?" selected":"")+'>'+q+'</option>'}).join("")+'</select></div><div class="field"><label>Tên phụ huynh</label><input id="fPh" value="'+esc(o.phuHuynh)+'"></div><div class="field"><label>Số điện thoại / Zalo</label><input id="fSdt" value="'+esc(o.sdt)+'" inputmode="tel"></div><div class="field"><label>Địa chỉ</label><input id="fDc" value="'+esc(o.diaChi)+'"></div><div class="field"><label>Ngày sinh</label><input id="fNs" value="'+esc(o.ngaySinh)+'" placeholder="dd/mm/yyyy"></div><div class="field"><label>Liên hệ thứ hai (bố/mẹ còn lại, số điện thoại)</label><input id="fLh2" value="'+esc(o.lienHe2)+'"></div></div><p class="err" id="fErr"></p>';
   var btns=[{t:"Hủy"},{t:"Lưu",cls:"primary",keep:true,fn:function(){var ten=$("#fTen").value.trim();if(!ten){$("#fErr").textContent="Chưa nhập họ tên.";return}save("hocsinh",id||newId(),{lop:o.lop||lopId,ten:ten,biDanh:$("#fBd").value.trim(),quanHe:$("#fQh").value,phuHuynh:$("#fPh").value.trim(),sdt:$("#fSdt").value.trim(),diaChi:$("#fDc").value.trim(),ngaySinh:$("#fNs").value.trim(),lienHe2:$("#fLh2").value.trim()});closeModal()}}];
   if(id)btns.unshift({t:"Xóa",cls:"danger",keep:true,fn:function(){remove("hocsinh",id);closeModal()}});
   modal(id?"Sửa học sinh":"Thêm học sinh",body,btns);
@@ -1028,8 +1127,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")closeModal()
 function napMau(){
   var tr=newId(),l1=newId(),l2=newId();
   var ps=[save("hoso","hoso",{giaoVien:"Hương",xungHo:"cô"}),save("truong",tr,{ten:"Tiểu học Thống Nhất (ví dụ)"}),save("lop",l1,{ten:"3A (ví dụ)",truong:tr,vaiTro:"chunhiem",mon:""}),save("lop",l2,{ten:"4B (ví dụ)",truong:tr,vaiTro:"bomon",mon:"Tiếng Anh"})];
-  [["Nguyễn Minh An","An","mẹ","Lan","0900 000 001"],["Trần Bảo Châu","Châu","bố","Hùng","0900 000 002"],["Lê Gia Huy","Huy","mẹ","Thu","0900 000 003"],["Phạm Khánh Linh","Linh","bà","Nga","0900 000 004"],["Vũ Đức Minh","Minh","mẹ","Hoa","0900 000 005"],["Đỗ Thảo My","My","bố","Tuấn","0900 000 006"]].forEach(function(r){ps.push(save("hocsinh",newId(),{lop:l1,ten:r[0]+" (ví dụ)",biDanh:r[1],quanHe:r[2],phuHuynh:r[3],sdt:r[4]}))});
-  [["Hoàng Văn Bình","Bình","mẹ","Mai","0900 000 011"],["Ngô Thu Hà","Hà","bố","Long","0900 000 012"]].forEach(function(r){ps.push(save("hocsinh",newId(),{lop:l2,ten:r[0]+" (ví dụ)",biDanh:r[1],quanHe:r[2],phuHuynh:r[3],sdt:r[4]}))});
+  [["Nguyễn Minh An","An","mẹ","Lan","0900 000 001"],["Trần Bảo Châu","Châu","bố","Hùng","0900 000 002"],["Lê Gia Huy","Huy","mẹ","Thu","0900 000 003"],["Phạm Khánh Linh","Linh","bà","Nga","0900 000 004"],["Vũ Đức Minh","Minh","mẹ","Hoa","0900 000 005"],["Đỗ Thảo My","My","bố","Tuấn","0900 000 006"]].forEach(function(r){ps.push(save("hocsinh",newId(),{lop:l1,ten:r[0]+" (ví dụ)",quanHe:r[2],phuHuynh:r[3],sdt:r[4]}))});
+  [["Hoàng Văn Bình","Bình","mẹ","Mai","0900 000 011"],["Ngô Thu Hà","Hà","bố","Long","0900 000 012"]].forEach(function(r){ps.push(save("hocsinh",newId(),{lop:l2,ten:r[0]+" (ví dụ)",quanHe:r[2],phuHuynh:r[3],sdt:r[4]}))});
   lopId=l1;try{localStorage.setItem(LS+"-lop",l1)}catch(e){}
   Promise.all(ps).then(function(){toast("Đã nạp lớp mẫu.");render()});
 }
