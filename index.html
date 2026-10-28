@@ -226,6 +226,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .tile .k{font-size:12px;color:var(--muted)} .tile .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
 .check{display:flex;align-items:center;gap:8px;font-weight:500;font-size:14px}
 .check input{width:18px;height:18px;margin:0}
+.check.lam-moi{align-items:flex-start;background:var(--warn-soft);border:1px solid var(--warn);border-radius:10px;padding:10px 12px;font-weight:400;font-size:14px}.check.lam-moi input{margin-top:3px;flex:none}
 .goiy{background:var(--good-soft);border-radius:10px;padding:10px 12px;font-size:14px}
 
 .top .state.tk{cursor:pointer}
@@ -490,13 +491,23 @@ function moDuLieu(){
   modal("Dữ liệu của cô",tk+
     '<p class="note">'+(NGUOI?'Dữ liệu lưu trong tài khoản của cô và một bản trên máy này để dùng được khi mất mạng.':'Hiện dữ liệu chỉ lưu trên trình duyệt của máy này.')+' Cô vẫn có thể <b>sao lưu ra tệp</b> để cất giữ riêng.</p>'+
     '<div class="detail"><dl><dt>Số bản ghi</dt><dd>'+soBanGhi()+'</dd><dt>Sao lưu ra tệp gần nhất</dt><dd>'+(sl?ngayVN(sl.toISOString().slice(0,10)):'chưa có')+'</dd></dl></div>'+
-    '<div class="row"><button class="btn" id="dlSao">Tải tệp sao lưu</button><label class="btn" for="dlTep" style="cursor:pointer">Khôi phục từ tệp</label><input type="file" id="dlTep" accept=".json,application/json" hidden></div>',[{t:"Đóng"}]);
+    '<div class="row"><button class="btn" id="dlSao">Tải tệp sao lưu</button><label class="btn" for="dlTep" style="cursor:pointer">Khôi phục từ tệp</label><input type="file" id="dlTep" accept=".json,application/json" hidden></div>'+
+    '<p class="note" style="margin-top:6px">Muốn làm lại từ đầu (xóa lớp mẫu, xóa mọi lớp và học sinh):</p><div class="row"><button class="btn danger" id="dlXoaHet">Xóa toàn bộ dữ liệu</button></div>',[{t:"Đóng"}]);
   $("#dlSao").onclick=saoLuu;$("#dlTep").onchange=function(){if(this.files[0])khoiPhuc(this.files[0])};
-  var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuatGoogle;
+  $("#dlXoaHet").onclick=xoaToanBo;var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuatGoogle;
 }
 // Khôi phục từ tệp khi đã đăng nhập: ghi luôn lên tài khoản
 function khoiPhucLenMay(){if(!(NGUOI&&FB))return;var len=[];Object.keys(D).forEach(function(b){Object.keys(D[b]).forEach(function(id){len.push([b+"__"+id,{b:b,id:id,v:sach(D[b][id])}])})});
   for(var i=0;i<len.length;i+=400){var bt=FB.batch();len.slice(i,i+400).forEach(function(x){bt.set(khoBanGhi().doc(x[0]),x[1])});bt.commit().catch(loiMay)}}
+
+// Xóa sạch: mọi trường, lớp, học sinh, nhật ký, mẫu tin riêng, thông tin cô (cả trên tài khoản nếu đang đồng bộ)
+function xoaToanBo(){
+  var n=soBanGhi();if(!n){toast("Chưa có dữ liệu nào.");return}
+  xacNhan("Xóa toàn bộ "+n+" bản ghi (mọi trường, lớp, học sinh, nhật ký"+(NGUOI?", cả trên tài khoản Google và mọi máy đang đồng bộ":"")+")? Nên tải tệp sao lưu trước. Không hoàn tác được.",function(){
+    Object.keys(D).forEach(function(b){Object.keys(D[b]).forEach(function(id){remove(b,id)})});
+    closeModal();render();toast("Đã xóa toàn bộ dữ liệu.");
+  });
+}
 
 /* soạn tin */
 function chuKy(){var H=hoso(),L=lopHT()||{};return "— "+hoa(H.xungHo)+" "+H.giaoVien+(L.vaiTro==="bomon"?", giáo viên "+(L.mon||"bộ môn")+" lớp "+L.ten:", chủ nhiệm lớp "+L.ten)+", "+ngayVN(today())}
@@ -735,11 +746,11 @@ function rLop(){
   '<div class="card"><div class="row between"><h2>Các lớp của '+esc(H.xungHo)+' ('+lops.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small" id="btnTruong">+ Trường</button><button class="btn small primary" id="btnLopMoi">+ Lớp</button></div>':"")+'</div>'+
   (lops.length?'<div class="tbl"><table><tr><th>Lớp</th><th>Vai trò</th><th>Trường</th><th>Sĩ số</th></tr>'+lops.map(function(l){var n=vals("hocsinh").filter(function(h){return h.lop===l.id}).length;return'<tr class="clickable" data-lopsua="'+l.id+'"><td><b>'+esc(l.ten)+'</b>'+(l.id===lopId?' <span class="pill good">đang mở</span>':"")+'</td><td>'+(l.vaiTro==="bomon"?"Bộ môn "+esc(l.mon||""):"Chủ nhiệm")+'</td><td>'+esc(truongTen(l.truong))+'</td><td>'+n+'</td></tr>'}).join("")+'</table></div>':'<p class="empty">Chưa có lớp.</p>')+
   (truongs.length?'<p class="note">Trường: '+truongs.map(function(t){return esc(t.ten)}).join(", ")+'</p>':"")+'</div>'+
-  (L?'<div class="card"><div class="row between"><h2>Học sinh lớp '+esc(L.ten)+' ('+hs.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small primary" id="btnCapNhat">Cập nhật từ trang tính của trường</button><button class="btn small" id="btnThem">+ Thêm 1 em</button></div>':"")+'</div>'+
+  (L?'<div class="card"><div class="row between"><h2>Học sinh lớp '+esc(L.ten)+' ('+hs.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small primary" id="btnCapNhat">Cập nhật từ trang tính của trường</button><button class="btn small" id="btnThem">+ Thêm 1 em</button><button class="btn small danger" id="btnXoaHet">Xóa hết học sinh lớp này</button></div>':"")+'</div>'+
   (L.capNhatLuc?'<p class="note">Cập nhật từ trang tính lần cuối: '+esc(L.capNhatLuc)+'</p>':"")+
   (hs.length?'<div class="tbl"><table><tr><th>Họ tên</th><th>Ngày sinh</th><th>Phụ huynh</th><th>Điện thoại</th><th>Liên hệ 2</th><th>Địa chỉ</th></tr>'+hs.map(function(h){return'<tr class="clickable" data-edit="'+h.id+'"><td><b>'+esc(h.ten)+'</b>'+(h.biDanh?' <small style="color:var(--muted)">('+esc(h.biDanh)+')</small>':"")+'</td><td style="font-variant-numeric:tabular-nums">'+esc(h.ngaySinh||"")+'</td><td>'+esc((h.quanHe?h.quanHe+" ":"")+(h.phuHuynh||""))+'</td><td style="font-variant-numeric:tabular-nums">'+esc(h.sdt||"")+'</td><td>'+esc(h.lienHe2||"")+'</td><td>'+esc(h.diaChi||"")+'</td></tr>'}).join("")+'</table></div>':'<p class="empty">Chưa có học sinh. Nhanh nhất là "Cập nhật từ trang tính của trường".</p>')+'</div>':"");
   var b;if(b=$("#btnDuLieu"))b.onclick=moDuLieu;if(b=$("#btnHoso"))b.onclick=function(){formHoso()};if(b=$("#btnTruong"))b.onclick=formTruong;if(b=$("#btnLopMoi"))b.onclick=function(){formLop()};
-  if(b=$("#btnThem"))b.onclick=function(){formHS()};if(b=$("#btnCapNhat"))b.onclick=formCapNhat;
+  if(b=$("#btnThem"))b.onclick=function(){formHS()};if(b=$("#btnXoaHet"))b.onclick=xoaHetHocSinhLop;if(b=$("#btnCapNhat"))b.onclick=formCapNhat;
   $("#main").querySelectorAll("[data-edit]").forEach(function(tr){tr.onclick=function(){formHS(tr.dataset.edit)}});
   $("#main").querySelectorAll("[data-lopsua]").forEach(function(tr){tr.onclick=function(){formLop(tr.dataset.lopsua)}});
 }
@@ -847,6 +858,19 @@ function docCsv(t){
   if(o||row.length){row.push(o);rows.push(row)}
   return rows;
 }
+function xoaHocSinhVaNhatKy(id){
+  vals("sukien").filter(function(e){return e.hs===id}).forEach(function(e){remove("sukien",e.id)});
+  remove("hocsinh",id);
+}
+function xoaHetHocSinhLop(){
+  var L=lopHT(),hs=hsLop();if(!hs.length){toast("Lớp chưa có học sinh.");return}
+  xacNhan("Xóa toàn bộ "+hs.length+" học sinh lớp "+L.ten+", cùng nhật ký, điểm danh của lớp? Thông tin lớp, mẫu tin và các lớp khác giữ nguyên. Không hoàn tác được (trừ khi cô có tệp sao lưu).",function(){
+    hs.forEach(function(h){xoaHocSinhVaNhatKy(h.id)});
+    vals("diemdanh").filter(function(d){return d.lop===lopId}).forEach(function(d){remove("diemdanh",d.id)});
+    vals("thongbao").filter(function(t){return t.lop===lopId}).forEach(function(t){save("thongbao",t.id,Object.assign({},D.thongbao[t.id],{xong:{}}))});
+    toast("Đã xóa "+hs.length+" học sinh. Giờ cô cập nhật lại từ trang tính.");
+  });
+}
 function formCapNhat(){
   var L=lopHT();
   modal("Cập nhật danh sách lớp "+esc(L.ten)+" từ trang tính",
@@ -902,6 +926,7 @@ function formCapNhat(){
     else if(o.sdt)h.sdt=o.sdt;
     return h;
   }
+  var lamMoi=false;
   function soKhop(duLieu){
     var cot=map.indexOf("ten");if(cot<0){$("#cnKq").innerHTML='<p class="err">Cần có một cột "Họ tên học sinh".</p>';return}
     var tenLop=chuan(L.ten);var boQuaLop=0;
@@ -911,17 +936,21 @@ function formCapNhat(){
       if(o.lop&&tenLop&&chuan(o.lop)!==tenLop&&chuan(o.lop).replace(/^lớp\s*/,"")!==tenLop.replace(/^lớp\s*/,"")){boQuaLop++;return}
       var k=chuan(o.ten);thay[k]=1;var cu=hsCu[k];
       if(!cu){them.push(thanhHS(o));return}
-      var moi=thanhHS(o,cu);var doi=["ngaySinh","biDanh","quanHe","phuHuynh","sdt","diaChi","lienHe2"].filter(function(f){return (moi[f]||"")!==(cu[f]||"")});
+      // Làm mới hoàn toàn: dựng lại thông tin em từ bảng (bỏ hết thông tin cũ), chỉ giữ mã em để không mất nhật ký
+      var moi=lamMoi?thanhHS(o,{lop:lopId}):thanhHS(o,cu);var doi=["ten","ngaySinh","biDanh","quanHe","phuHuynh","sdt","diaChi","lienHe2"].filter(function(f){return (moi[f]||"")!==(cu[f]||"")});
       if(doi.length)sua.push({id:cu.id,cu:cu,moi:moi,doi:doi});else giu++});
     var thieu=hsLop().filter(function(h){return !thay[chuan(h.ten)]});
-    $("#cnKq").innerHTML='<div class="tiles"><div class="tile"><span class="k">Thêm mới</span><span class="v">'+them.length+'</span></div><div class="tile"><span class="k">Cập nhật thông tin</span><span class="v">'+sua.length+'</span></div><div class="tile"><span class="k">Không đổi</span><span class="v">'+giu+'</span></div><div class="tile"><span class="k">Có trong lớp, không có trong bảng</span><span class="v">'+thieu.length+'</span></div></div>'+
+    $("#cnKq").innerHTML='<label class="check lam-moi"><input type="checkbox" id="cnMoi"'+(lamMoi?" checked":"")+'> <span><b>Làm mới hoàn toàn theo bảng này</b>: xóa hết thông tin cũ của từng em (kể cả phần cô tự sửa tay như tên gọi ở nhà, liên hệ thứ hai) rồi ghi lại đúng như trong bảng, và xóa các em không còn trong bảng. Nhật ký, điểm danh của các em còn trong bảng vẫn được giữ.</span></label>'+
+      '<div class="tiles"><div class="tile"><span class="k">Thêm mới</span><span class="v">'+them.length+'</span></div><div class="tile"><span class="k">Cập nhật thông tin</span><span class="v">'+sua.length+'</span></div><div class="tile"><span class="k">Không đổi</span><span class="v">'+giu+'</span></div><div class="tile"><span class="k">Có trong lớp, không có trong bảng</span><span class="v">'+thieu.length+'</span></div></div>'+
       (boQuaLop?'<p class="note">Bỏ qua '+boQuaLop+' dòng thuộc lớp khác (theo cột Lớp).</p>':"")+
       (sua.length?'<details><summary class="note" style="cursor:pointer">Xem các thay đổi</summary><div class="log">'+sua.slice(0,30).map(function(s){return'<div class="log-item" style="grid-template-columns:1fr"><span><b>'+esc(s.cu.ten)+'</b>: '+s.doi.map(function(f){return esc(f)+' "'+esc(s.cu[f]||"")+'" → "'+esc(s.moi[f]||"")+'"'}).join("; ")+'</span></div>'}).join("")+'</div></details>':"")+
-      (thieu.length?'<label class="check"><input type="checkbox" id="cnXoa"> Xóa '+thieu.length+' em không còn trong bảng ('+thieu.slice(0,5).map(function(h){return esc(h.ten)}).join(", ")+(thieu.length>5?"…":"")+') — chỉ tích khi bảng của trường là danh sách đầy đủ</label>':"")+
-      '<div class="row"><button class="btn primary" id="cnAp" '+(them.length+sua.length?"":"disabled")+'>Áp dụng: thêm '+them.length+', sửa '+sua.length+'</button></div>';
+      (thieu.length&&!lamMoi?'<label class="check"><input type="checkbox" id="cnXoa"> Xóa '+thieu.length+' em không còn trong bảng ('+thieu.slice(0,5).map(function(h){return esc(h.ten)}).join(", ")+(thieu.length>5?"…":"")+') — chỉ tích khi bảng của trường là danh sách đầy đủ</label>':"")+
+      (lamMoi&&thieu.length?'<p class="err">Sẽ xóa '+thieu.length+' em không còn trong bảng: '+thieu.slice(0,6).map(function(h){return esc(h.ten)}).join(", ")+(thieu.length>6?"…":"")+'</p>':"")+
+      '<div class="row"><button class="btn primary" id="cnAp" '+(them.length+sua.length+(lamMoi?thieu.length:0)?"":"disabled")+'>Áp dụng: thêm '+them.length+', sửa '+sua.length+(lamMoi&&thieu.length?', xóa '+thieu.length:"")+'</button></div>';
+    $("#cnMoi").onchange=function(){lamMoi=this.checked;soKhop(duLieu)};
     $("#cnAp").onclick=function(){
       them.forEach(function(h){save("hocsinh",newId(),h)});sua.forEach(function(s){save("hocsinh",s.id,s.moi)});
-      if($("#cnXoa")&&$("#cnXoa").checked)thieu.forEach(function(h){remove("hocsinh",h.id)});
+      if(lamMoi||($("#cnXoa")&&$("#cnXoa").checked))thieu.forEach(function(h){xoaHocSinhVaNhatKy(h.id)});
       save("lop",lopId,Object.assign({},D.lop[lopId],{capNhatLuc:ngayVN(today())+" "+gioNow()},linkDung?{linkTrangTinh:linkDung}:{}));
       closeModal();toast("Đã cập nhật: thêm "+them.length+", sửa "+sua.length+".")};
   }
