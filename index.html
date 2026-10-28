@@ -412,10 +412,11 @@ function moDuLieu(){
 function ganNhacSaoLuu(){if(!canhBaoSaoLuu()||tab==="lop")return;$("#main").insertAdjacentHTML("afterbegin",'<div class="banner sap"><span>Dữ liệu chỉ nằm trên máy này. Cô <b>sao lưu ra tệp</b> để không bị mất khi đổi máy hoặc xóa trình duyệt.</span><button class="btn small" id="bnSao">Sao lưu ngay</button></div>');$("#bnSao").onclick=saoLuu}
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
 
-/* ===== ĐỒNG BỘ QUA TÀI KHOẢN GOOGLE (Firebase, gói miễn phí) =====
+/* ===== ĐĂNG NHẬP BẰNG TÀI KHOẢN GOOGLE + ĐỒNG BỘ (Firebase gói Spark, miễn phí hoàn toàn) =====
+   Mỗi tài khoản Gmail là đúng một tài khoản trên trang.
    Có tệp cau-hinh-firebase.js thì bật đồng bộ; không có thì trang vẫn chạy, chỉ lưu trên máy.
    Dữ liệu mỗi cô nằm ở nguoiDung/<mã tài khoản>/banGhi/<loại>__<mã bản ghi>; luật bảo mật chỉ cho chính cô đọc ghi. */
-var FB=null,NGUOI=null,huyNghe=null,dangDongBo=false;
+var FB=null,NGUOI=null,huyNghe=null,dangDongBo=false,daCapNhatPhien=false;
 function coCauHinhMay(){return !!(window.CAU_HINH_FIREBASE&&window.CAU_HINH_FIREBASE.apiKey&&window.firebase)}
 function khoiDongMay(){
   if(!coCauHinhMay()){setState();return}
@@ -423,7 +424,7 @@ function khoiDongMay(){
   FB=firebase.firestore();
   try{FB.enablePersistence({synchronizeTabs:true}).catch(function(){})}catch(e){}
   firebase.auth().onAuthStateChanged(function(u){
-    NGUOI=u;if(huyNghe){huyNghe();huyNghe=null}
+    NGUOI=u;daCapNhatPhien=false;if(huyNghe){huyNghe();huyNghe=null}
     if(u)batDauDongBo();setState();render();
   });
 }
@@ -443,6 +444,7 @@ function batDauDongBo(){
       snap.forEach(function(d){var x=d.data();if(moi[x.b])moi[x.b][x.id]=x.v});
       Object.keys(moi).forEach(function(k){D[k]=moi[k]});
       luuMayNay();dangDongBo=false;setState();
+
       if(!snap.metadata.hasPendingWrites)veLaiNheNhang();
     },function(e){dangDongBo=false;setState();toast("Chưa đồng bộ được ("+(e.code||"lỗi")+").")});
   }).catch(function(e){dangDongBo=false;setState();toast("Chưa đồng bộ được, cô kiểm tra mạng.")});
@@ -459,18 +461,22 @@ function remove(t,id){
   delete D[t][id];render();lsSave();
   if(NGUOI&&FB)return khoBanGhi().doc(t+"__"+id).delete().catch(loiMay);
   return Promise.resolve()}
+function tenTaiKhoan(u){return u?(u.email||u.displayName||""):""}
 function dangNhapGoogle(){
-  if(!coCauHinhMay()){toast("Trang chưa được cấu hình đồng bộ.");return}
+  if(!coCauHinhMay()){toast("Trang chưa được cấu hình đăng nhập.");return}
   var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
   firebase.auth().signInWithPopup(p).then(function(){closeModal();toast("Đã đăng nhập. Dữ liệu tự đồng bộ giữa điện thoại và máy tính.")})
   .catch(function(e){
-    if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment")firebase.auth().signInWithRedirect(p);
-    else if(e.code==="auth/unauthorized-domain")toast("Tên miền trang chưa được khai báo trong Firebase (Authentication → Settings → Authorized domains).");
-    else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")toast("Chưa đăng nhập được ("+e.code+").");
+    var c=e&&e.code||"";
+    if(c==="auth/popup-blocked"||c==="auth/operation-not-supported-in-this-environment")firebase.auth().signInWithRedirect(p);
+    else if(c==="auth/unauthorized-domain")toast("Tên miền trang chưa được khai báo trong Firebase (Authentication → Settings → Authorized domains).");
+    else if(c==="auth/operation-not-allowed")toast("Đăng nhập Google chưa được bật trong Firebase.");
+    else if(c==="auth/network-request-failed")toast("Mất mạng, cô kiểm tra kết nối.");
+    else if(c!=="auth/popup-closed-by-user"&&c!=="auth/cancelled-popup-request")toast("Chưa đăng nhập được ("+c+").");
   });
 }
-function dangXuatGoogle(){
-  xacNhanKhoiPhuc("Đăng xuất sẽ xóa dữ liệu trên máy này cho an toàn. Dữ liệu vẫn còn nguyên trong tài khoản Google của cô, đăng nhập lại là có.",function(){
+function dangXuat(){
+  xacNhanKhoiPhuc("Đăng xuất sẽ xóa dữ liệu trên máy này cho an toàn. Dữ liệu vẫn còn nguyên trong tài khoản Google, đăng nhập lại là có.",function(){
     if(huyNghe){huyNghe();huyNghe=null}
     firebase.auth().signOut().then(function(){Object.keys(D).forEach(function(k){D[k]={}});try{localStorage.removeItem(LS);localStorage.removeItem(LS+"-sua")}catch(e){}closeModal();render();toast("Đã đăng xuất.")});
   });
@@ -486,15 +492,15 @@ function canhBaoSaoLuuGoc(){var sua=layNgay("-sua"),sl=layNgay("-saoluu");if(!su
 function canhBaoSaoLuu(){if(NGUOI)return false;return canhBaoSaoLuuGoc()}
 function moDuLieu(){
   var sl=layNgay("-saoluu"),tk="";
-  if(coCauHinhMay()&&NGUOI)tk='<div class="banner ok"><span>Đang đồng bộ bằng tài khoản Google <b>'+esc(NGUOI.email||NGUOI.displayName||"")+'</b>. Mở trang trên máy khác và đăng nhập cùng tài khoản là thấy đủ dữ liệu.</span><button class="btn small" id="dlRa">Đăng xuất</button></div>';
-  else if(coCauHinhMay())tk='<div class="banner sap"><span><b>Dùng trên cả điện thoại và máy tính?</b> Đăng nhập bằng tài khoản Google, dữ liệu tự đồng bộ giữa các máy, đổi máy không mất. Miễn phí.</span><button class="btn small primary" id="dlVao">Đăng nhập Google</button></div>';
+  if(coCauHinhMay()&&NGUOI)tk='<div class="banner ok"><span>Đang đồng bộ bằng tài khoản <b>'+esc(tenTaiKhoan(NGUOI))+'</b>. Mở trang trên máy khác và đăng nhập cùng tài khoản Google là thấy đủ dữ liệu.</span><button class="btn small" id="dlRa">Đăng xuất</button></div>';
+  else if(coCauHinhMay())tk='<div class="banner sap"><span><b>Dùng trên cả điện thoại và máy tính?</b> Đăng nhập bằng tài khoản Google (Gmail), dữ liệu tự đồng bộ giữa các máy, đổi máy không mất. Miễn phí.</span><button class="btn small primary" id="dlVao">Đăng nhập Google</button></div>';
   modal("Dữ liệu của cô",tk+
     '<p class="note">'+(NGUOI?'Dữ liệu lưu trong tài khoản của cô và một bản trên máy này để dùng được khi mất mạng.':'Hiện dữ liệu chỉ lưu trên trình duyệt của máy này.')+' Cô vẫn có thể <b>sao lưu ra tệp</b> để cất giữ riêng.</p>'+
     '<div class="detail"><dl><dt>Số bản ghi</dt><dd>'+soBanGhi()+'</dd><dt>Sao lưu ra tệp gần nhất</dt><dd>'+(sl?ngayVN(sl.toISOString().slice(0,10)):'chưa có')+'</dd></dl></div>'+
     '<div class="row"><button class="btn" id="dlSao">Tải tệp sao lưu</button><label class="btn" for="dlTep" style="cursor:pointer">Khôi phục từ tệp</label><input type="file" id="dlTep" accept=".json,application/json" hidden></div>'+
     '<p class="note" style="margin-top:6px">Muốn làm lại từ đầu (xóa lớp mẫu, xóa mọi lớp và học sinh):</p><div class="row"><button class="btn danger" id="dlXoaHet">Xóa toàn bộ dữ liệu</button></div>',[{t:"Đóng"}]);
   $("#dlSao").onclick=saoLuu;$("#dlTep").onchange=function(){if(this.files[0])khoiPhuc(this.files[0])};
-  $("#dlXoaHet").onclick=xoaToanBo;var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuatGoogle;
+  $("#dlXoaHet").onclick=xoaToanBo;var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuat;
 }
 // Khôi phục từ tệp khi đã đăng nhập: ghi luôn lên tài khoản
 function khoiPhucLenMay(){if(!(NGUOI&&FB))return;var len=[];Object.keys(D).forEach(function(b){Object.keys(D[b]).forEach(function(id){len.push([b+"__"+id,{b:b,id:id,v:sach(D[b][id])}])})});
@@ -503,7 +509,7 @@ function khoiPhucLenMay(){if(!(NGUOI&&FB))return;var len=[];Object.keys(D).forEa
 // Xóa sạch: mọi trường, lớp, học sinh, nhật ký, mẫu tin riêng, thông tin cô (cả trên tài khoản nếu đang đồng bộ)
 function xoaToanBo(){
   var n=soBanGhi();if(!n){toast("Chưa có dữ liệu nào.");return}
-  xacNhan("Xóa toàn bộ "+n+" bản ghi (mọi trường, lớp, học sinh, nhật ký"+(NGUOI?", cả trên tài khoản Google và mọi máy đang đồng bộ":"")+")? Nên tải tệp sao lưu trước. Không hoàn tác được.",function(){
+  xacNhan("Xóa toàn bộ "+n+" bản ghi (mọi trường, lớp, học sinh, nhật ký"+(NGUOI?", cả trên tài khoản và mọi máy đang đồng bộ":"")+")? Nên tải tệp sao lưu trước. Không hoàn tác được.",function(){
     Object.keys(D).forEach(function(b){Object.keys(D[b]).forEach(function(id){remove(b,id)})});
     closeModal();render();toast("Đã xóa toàn bộ dữ liệu.");
   });
@@ -858,6 +864,72 @@ function docCsv(t){
   if(o||row.length){row.push(o);rows.push(row)}
   return rows;
 }
+/* ===== NHẬP DANH SÁCH TỪ BẢNG: phần dùng chung cho nhập tay và tự cập nhật ===== */
+function layBanMap(map,r){var o={};map.forEach(function(m,i){if(m==="bo_qua"||o[m]||r[i]==null)return;var v=String(r[i]).trim();if(!v)return;if(/^sdt/.test(m)){v=layDT(v);if(!v)return}o[m]=v});return o}
+function thanhHSLop(o,cu,lopX){
+    var h=Object.assign({lop:lopX,ten:"",biDanh:"",quanHe:"mẹ",phuHuynh:"",sdt:"",diaChi:"",ngaySinh:"",lienHe2:""},cu||{});
+    h.ten=o.ten||h.ten;if(o.ngaySinh)h.ngaySinh=o.ngaySinh;if(o.biDanh)h.biDanh=o.biDanh;if(o.diaChi)h.diaChi=o.diaChi;
+    var me=o.me,bo=o.bo,sm=o.sdtMe,sb=o.sdtBo;
+    if(me||bo||sm||sb){
+      // ưu tiên người có số điện thoại; cả hai đều có thì chọn mẹ
+      var chonMe=sm?true:(sb?false:!!me);
+      if(chonMe){h.quanHe="mẹ";h.phuHuynh=me||h.phuHuynh;h.sdt=sm||o.sdt||h.sdt;h.lienHe2=(bo||sb)?("bố "+(bo||"")+(sb?" "+sb:"")).replace(/\s+/g," ").trim():h.lienHe2}
+      else{h.quanHe="bố";h.phuHuynh=bo||h.phuHuynh;h.sdt=sb||o.sdt||h.sdt;h.lienHe2=(me||sm)?("mẹ "+(me||"")+(sm?" "+sm:"")).replace(/\s+/g," ").trim():h.lienHe2} }
+    else if(o.phuHuynh){var mm=o.phuHuynh.match(/^(mẹ|bố|ông|bà|cha|phụ huynh)\s*[:\-]?\s*(.+)/i);if(mm){h.quanHe=mm[1].toLowerCase()==="cha"?"bố":mm[1].toLowerCase();h.phuHuynh=mm[2]}else h.phuHuynh=o.phuHuynh;if(o.sdt)h.sdt=o.sdt}
+    else if(o.sdt)h.sdt=o.sdt;
+    return h;
+}
+/* Mã cố định cho em mới thêm từ bảng (theo lớp + họ tên): hai máy cùng tự cập nhật một lúc cũng không tạo trùng */
+function maHocSinh(lopX,ten){var s=lopX+"|"+chuan(ten),h=5381;for(var i=0;i<s.length;i++)h=((h*33)^s.charCodeAt(i))>>>0;return"hs_"+h.toString(36)+"_"+s.length}
+/* Ghép cột: dùng cách ghép cô đã chỉnh lần trước (nếu có), cột mới thì để máy tự nhận */
+function anhXaCot(tieuDe,duLieu,cotLuu){
+  var map=tieuDe.map(function(h){var k=String(h||"").trim();return cotLuu&&cotLuu[k]!==undefined?cotLuu[k]:doanCot(h)});
+  return cotLuu&&Object.keys(cotLuu).length?map:soatCot(map,duLieu);
+}
+/* So bảng với danh sách hiện có của một lớp: em mới, em đổi thông tin, em không còn trong bảng */
+function tinhThayDoi(duLieu,map,L,lamMoi){
+  var tenLop=chuan(L.ten),boQuaLop=0,hsLopX=vals("hocsinh").filter(function(h){return h.lop===L.id});
+  var hsCu={};hsLopX.forEach(function(h){hsCu[chuan(h.ten)]=h});
+  var them=[],sua=[],giu=0,thay={};
+  duLieu.forEach(function(r){var o=layBanMap(map,r);if(!o.ten||/^\d+$/.test(o.ten))return;
+    if(o.lop&&tenLop&&chuan(o.lop)!==tenLop&&chuan(o.lop).replace(/^lớp\s*/,"")!==tenLop.replace(/^lớp\s*/,"")){boQuaLop++;return}
+    var k=chuan(o.ten);if(thay[k])return;thay[k]=1;var cu=hsCu[k];
+    if(!cu){var hm=thanhHSLop(o,null,L.id);hm.id=maHocSinh(L.id,o.ten);them.push(hm);return}
+    // Làm mới hoàn toàn: dựng lại thông tin em từ bảng (bỏ hết thông tin cũ), chỉ giữ mã em để không mất nhật ký
+    var moi=lamMoi?thanhHSLop(o,{lop:L.id},L.id):thanhHSLop(o,cu,L.id);delete moi.id;
+    var doi=["ten","ngaySinh","biDanh","quanHe","phuHuynh","sdt","diaChi","lienHe2"].filter(function(f){return (moi[f]||"")!==(cu[f]||"")});
+    if(doi.length)sua.push({id:cu.id,cu:cu,moi:moi,doi:doi});else giu++});
+  var thieu=hsLopX.filter(function(h){return !thay[chuan(h.ten)]});
+  return{them:them,sua:sua,giu:giu,thieu:thieu,boQuaLop:boQuaLop};
+}
+/* Lưu cách ghép cột theo tiêu đề để lần tự cập nhật sau dùng lại */
+function cotDeLuu(tieuDe,map){var o={};(tieuDe||[]).forEach(function(h,i){var k=String(h||"").trim();if(k)o[k]=map[i]||"bo_qua"});return o}
+function docTrangTinh(link){
+  var dc=duongDanCsv(link);if(!dc)return Promise.reject(new Error("link_sai"));
+  return fetch(dc,{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.text()}).then(function(t){
+    if(/^\s*</.test(t))throw new Error("khong_cong_khai");
+    var rows=docCsv(t).filter(function(r){return r.some(function(c){return String(c).trim()})});
+    if(!rows.length)throw new Error("trong");return rows});
+}
+/* TỰ CẬP NHẬT mỗi khi mở trang: lớp nào đã lưu đường dẫn trang tính thì đọc lại, thêm em mới, sửa thông tin đổi.
+   Không tự xóa em nào (em không còn trong bảng chỉ được báo lại để cô tự quyết). */
+var tcDang=false,tcLanCuoi=0;
+function tuCapNhatTrangTinh(){
+  if(tcDang||!canWrite)return;var lops=vals("lop").filter(function(l){return l.linkTrangTinh});
+  if(!lops.length)return;tcDang=true;tcLanCuoi=Date.now();var bao=[],loi=[];
+  Promise.all(lops.map(function(L){
+    return docTrangTinh(L.linkTrangTinh).then(function(rows){
+      var b=docBang(rows);if(!b.tieuDe)return;var map=anhXaCot(b.tieuDe,b.duLieu,L.cotTrangTinh);if(map.indexOf("ten")<0)return;
+      var d=tinhThayDoi(b.duLieu,map,L,false);
+      d.them.forEach(function(h){var id=h.id;delete h.id;save("hocsinh",id,h)});d.sua.forEach(function(x){save("hocsinh",x.id,x.moi)});
+      if(d.them.length||d.sua.length){save("lop",L.id,Object.assign({},D.lop[L.id],{capNhatLuc:ngayVN(today())+" "+gioNow()}));bao.push("lớp "+L.ten+": thêm "+d.them.length+", sửa "+d.sua.length)}
+      if(d.thieu.length)bao.push("lớp "+L.ten+" có "+d.thieu.length+" em không còn trong bảng");
+    }).catch(function(){loi.push(L.ten)});
+  })).then(function(){tcDang=false;
+    if(bao.length)toast("Đã cập nhật từ trang tính · "+bao.join(" · "));
+    else if(loi.length)toast("Chưa đọc được trang tính của lớp "+loi.join(", ")+". Cô kiểm tra mạng hoặc quyền chia sẻ.");
+  });
+}
 function xoaHocSinhVaNhatKy(id){
   vals("sukien").filter(function(e){return e.hs===id}).forEach(function(e){remove("sukien",e.id)});
   remove("hocsinh",id);
@@ -874,37 +946,22 @@ function xoaHetHocSinhLop(){
 function formCapNhat(){
   var L=lopHT();
   modal("Cập nhật danh sách lớp "+esc(L.ten)+" từ trang tính",
-  '<div class="field"><label>Cách 1 · Dán đường dẫn Google Trang tính của trường</label><div class="row" style="flex-wrap:nowrap"><input id="cnLink" placeholder="https://docs.google.com/spreadsheets/d/…" value="'+esc(L.linkTrangTinh||"")+'"><button class="btn primary" id="cnLay">Lấy dữ liệu</button></div>'+
-  '<p class="note">Trang tính cần được chia sẻ ở chế độ <b>"Bất kỳ ai có đường liên kết đều có thể xem"</b> (nút Chia sẻ → Quyền truy cập chung). Mở đúng trang tính (tab) chứa danh sách lớp rồi mới sao chép đường dẫn, máy sẽ đọc đúng tab đó. Đường dẫn được nhớ lại để lần sau chỉ bấm "Lấy dữ liệu".</p></div>'+
-  '<p class="note" style="margin-top:4px"><b>Cách 2 ·</b> Tải tệp: trang tính → Tệp → Tải xuống → Microsoft Excel (.xlsx). <b>Cách 3 ·</b> Chọn toàn bộ bảng (Ctrl+A), sao chép (Ctrl+C) và dán vào ô dưới. Máy tự nhận các cột họ tên, ngày sinh, bố, mẹ, số điện thoại, địa chỉ.</p>'+
+  '<p class="note"><b>Cách 1 · Tải tệp:</b> mở trang tính của trường → Tệp → Tải xuống → Microsoft Excel (.xlsx), rồi chọn tệp ở đây (trên điện thoại chọn tệp trong mục Tải xuống). <b>Cách 2 ·</b> Chọn toàn bộ bảng (Ctrl+A), sao chép (Ctrl+C) và dán vào ô dưới. Máy tự nhận các cột họ tên, ngày sinh, bố, mẹ, số điện thoại, địa chỉ và bỏ qua các cột như CCCD, nghề nghiệp.</p>'+
   '<div class="field"><label>Chọn tệp Excel / CSV</label><input type="file" id="cnFile" accept=".xlsx,.xls,.csv,text/csv"></div>'+
   '<div class="field"><label>Hoặc dán bảng đã sao chép</label><textarea id="cnDan" rows="5" placeholder="Dán vào đây…"></textarea></div>'+
   '<div class="row"><button class="btn primary" id="cnDoc">Đọc và xem trước</button></div><p class="err" id="cnErr"></p><div id="cnXem"></div>',
   [{t:"Đóng"}]);
   var rows=null,linkDung="";
-  $("#cnLay").onclick=function(){
-    var u=$("#cnLink").value.trim(),b=$("#cnLay");$("#cnErr").textContent="";
-    var dc=duongDanCsv(u);if(!dc){$("#cnErr").textContent="Đường dẫn chưa đúng. Hãy sao chép đường dẫn trên thanh địa chỉ khi đang mở trang tính, dạng https://docs.google.com/spreadsheets/d/...";return}
-    b.disabled=true;b.textContent="Đang lấy…";
-    fetch(dc).then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.text()}).then(function(t){
-      if(/^\s*</.test(t))throw new Error("khong_cong_khai");
-      rows=docCsv(t).filter(function(r){return r.some(function(c){return String(c).trim()})});
-      if(!rows.length)throw new Error("trong");linkDung=u;xemTruoc();
-    }).catch(function(e){
-      var m=String(e&&e.message||"");
-      $("#cnErr").textContent=m==="trong"?"Trang tính trống.":(m==="khong_cong_khai"||/http 4/.test(m))?"Không đọc được: trang tính chưa chia sẻ ở chế độ \"Bất kỳ ai có đường liên kết đều có thể xem\".":"Không đọc được trang tính. Nếu cô đang mở trang trong khung claude.ai, hãy dùng bản trên trang web riêng; hoặc dùng cách tải tệp bên dưới.";
-    }).finally(function(){b.disabled=false;b.textContent="Lấy dữ liệu"});
-  };
   $("#cnFile").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();
     r.onload=function(e){try{var wb=XLSX.read(e.target.result,{type:"array",cellDates:true});var ws=wb.Sheets[wb.SheetNames[0]];rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:""});xemTruoc()}catch(x){$("#cnErr").textContent="Không đọc được tệp này."}};
     r.readAsArrayBuffer(f)};
   $("#cnDoc").onclick=function(){var t=$("#cnDan").value;if(t.trim()){rows=t.split(/\r?\n/).filter(function(l){return l.trim()}).map(function(l){return l.indexOf("\t")>=0?l.split("\t"):l.split(/[,;]/)})}
     if(!rows){$("#cnErr").textContent="Chưa có dữ liệu: chọn tệp hoặc dán bảng.";return}xemTruoc()};
-  var map=[];
+  var map=[],bangHT=null;
   function xemTruoc(){
     $("#cnErr").textContent="";var b=docBang(rows);
     if(!b.tieuDe){map=["ten","phuHuynh","sdt","diaChi"].concat(b.duLieu[0].slice(4).map(function(){return"bo_qua"}))}
-    else map=b.tieuDe.map(doanCot);map=soatCot(map,b.duLieu);
+    else map=anhXaCot(b.tieuDe,b.duLieu,L.cotTrangTinh);bangHT=b;
     var soCot=Math.max.apply(null,b.duLieu.map(function(r){return r.length}).concat([map.length]));while(map.length<soCot)map.push("bo_qua");
     var html='<p class="note">Máy đoán các cột như sau, cô sửa nếu đoán sai:</p><div class="tbl"><table><tr>'+map.map(function(m,i){return'<th><select data-ci="'+i+'" style="font-size:12px;padding:4px">'+COT.map(function(c){return'<option value="'+c.ma+'"'+(c.ma===m?" selected":"")+'>'+c.nhan+'</option>'}).join("")+'</select>'+(b.tieuDe?'<br><small>'+esc(b.tieuDe[i]||"")+'</small>':"")+'</th>'}).join("")+'</tr>'+
       b.duLieu.slice(0,3).map(function(r){return'<tr>'+map.map(function(_,i){return'<td>'+esc(r[i]||"")+'</td>'}).join("")+'</tr>'}).join("")+'</table></div><p class="note">(hiện 3 dòng đầu trong '+b.duLieu.length+' dòng)</p><div id="cnKq"></div>';
@@ -912,34 +969,13 @@ function formCapNhat(){
     $("#cnXem").querySelectorAll("[data-ci]").forEach(function(s){s.onchange=function(){map[+s.dataset.ci]=s.value;soKhop(b.duLieu)}});
     soKhop(b.duLieu);
   }
-  function layBan(r){var o={};map.forEach(function(m,i){if(m==="bo_qua"||o[m]||r[i]==null)return;var v=String(r[i]).trim();if(!v)return;if(/^sdt/.test(m)){v=layDT(v);if(!v)return}o[m]=v});return o}
-  function thanhHS(o,cu){
-    var h=Object.assign({lop:lopId,ten:"",biDanh:"",quanHe:"mẹ",phuHuynh:"",sdt:"",diaChi:"",ngaySinh:"",lienHe2:""},cu||{});
-    h.ten=o.ten||h.ten;if(o.ngaySinh)h.ngaySinh=o.ngaySinh;if(o.biDanh)h.biDanh=o.biDanh;if(o.diaChi)h.diaChi=o.diaChi;
-    var me=o.me,bo=o.bo,sm=o.sdtMe,sb=o.sdtBo;
-    if(me||bo||sm||sb){
-      // ưu tiên người có số điện thoại; cả hai đều có thì chọn mẹ
-      var chonMe=sm?true:(sb?false:!!me);
-      if(chonMe){h.quanHe="mẹ";h.phuHuynh=me||h.phuHuynh;h.sdt=sm||o.sdt||h.sdt;h.lienHe2=(bo||sb)?("bố "+(bo||"")+(sb?" "+sb:"")).replace(/\s+/g," ").trim():h.lienHe2}
-      else{h.quanHe="bố";h.phuHuynh=bo||h.phuHuynh;h.sdt=sb||o.sdt||h.sdt;h.lienHe2=(me||sm)?("mẹ "+(me||"")+(sm?" "+sm:"")).replace(/\s+/g," ").trim():h.lienHe2} }
-    else if(o.phuHuynh){var mm=o.phuHuynh.match(/^(mẹ|bố|ông|bà|cha|phụ huynh)\s*[:\-]?\s*(.+)/i);if(mm){h.quanHe=mm[1].toLowerCase()==="cha"?"bố":mm[1].toLowerCase();h.phuHuynh=mm[2]}else h.phuHuynh=o.phuHuynh;if(o.sdt)h.sdt=o.sdt}
-    else if(o.sdt)h.sdt=o.sdt;
-    return h;
-  }
+  function layBan(r){return layBanMap(map,r)}
+  function thanhHS(o,cu){return thanhHSLop(o,cu,lopId)}
   var lamMoi=false;
   function soKhop(duLieu){
     var cot=map.indexOf("ten");if(cot<0){$("#cnKq").innerHTML='<p class="err">Cần có một cột "Họ tên học sinh".</p>';return}
-    var tenLop=chuan(L.ten);var boQuaLop=0;
-    var hsCu={};hsLop().forEach(function(h){hsCu[chuan(h.ten)]=h});
-    var them=[],sua=[],giu=0;var thay={};
-    duLieu.forEach(function(r){var o=layBan(r);if(!o.ten||/^\d+$/.test(o.ten))return;
-      if(o.lop&&tenLop&&chuan(o.lop)!==tenLop&&chuan(o.lop).replace(/^lớp\s*/,"")!==tenLop.replace(/^lớp\s*/,"")){boQuaLop++;return}
-      var k=chuan(o.ten);thay[k]=1;var cu=hsCu[k];
-      if(!cu){them.push(thanhHS(o));return}
-      // Làm mới hoàn toàn: dựng lại thông tin em từ bảng (bỏ hết thông tin cũ), chỉ giữ mã em để không mất nhật ký
-      var moi=lamMoi?thanhHS(o,{lop:lopId}):thanhHS(o,cu);var doi=["ten","ngaySinh","biDanh","quanHe","phuHuynh","sdt","diaChi","lienHe2"].filter(function(f){return (moi[f]||"")!==(cu[f]||"")});
-      if(doi.length)sua.push({id:cu.id,cu:cu,moi:moi,doi:doi});else giu++});
-    var thieu=hsLop().filter(function(h){return !thay[chuan(h.ten)]});
+    var d=tinhThayDoi(duLieu,map,L,lamMoi),them=d.them,sua=d.sua,giu=d.giu,boQuaLop=d.boQuaLop;
+    var thieu=d.thieu;
     $("#cnKq").innerHTML='<label class="check lam-moi"><input type="checkbox" id="cnMoi"'+(lamMoi?" checked":"")+'> <span><b>Làm mới hoàn toàn theo bảng này</b>: xóa hết thông tin cũ của từng em (kể cả phần cô tự sửa tay như tên gọi ở nhà, liên hệ thứ hai) rồi ghi lại đúng như trong bảng, và xóa các em không còn trong bảng. Nhật ký, điểm danh của các em còn trong bảng vẫn được giữ.</span></label>'+
       '<div class="tiles"><div class="tile"><span class="k">Thêm mới</span><span class="v">'+them.length+'</span></div><div class="tile"><span class="k">Cập nhật thông tin</span><span class="v">'+sua.length+'</span></div><div class="tile"><span class="k">Không đổi</span><span class="v">'+giu+'</span></div><div class="tile"><span class="k">Có trong lớp, không có trong bảng</span><span class="v">'+thieu.length+'</span></div></div>'+
       (boQuaLop?'<p class="note">Bỏ qua '+boQuaLop+' dòng thuộc lớp khác (theo cột Lớp).</p>':"")+
@@ -949,9 +985,9 @@ function formCapNhat(){
       '<div class="row"><button class="btn primary" id="cnAp" '+(them.length+sua.length+(lamMoi?thieu.length:0)?"":"disabled")+'>Áp dụng: thêm '+them.length+', sửa '+sua.length+(lamMoi&&thieu.length?', xóa '+thieu.length:"")+'</button></div>';
     $("#cnMoi").onchange=function(){lamMoi=this.checked;soKhop(duLieu)};
     $("#cnAp").onclick=function(){
-      them.forEach(function(h){save("hocsinh",newId(),h)});sua.forEach(function(s){save("hocsinh",s.id,s.moi)});
+      them.forEach(function(h){var id=h.id;delete h.id;save("hocsinh",id,h)});sua.forEach(function(s){save("hocsinh",s.id,s.moi)});
       if(lamMoi||($("#cnXoa")&&$("#cnXoa").checked))thieu.forEach(function(h){xoaHocSinhVaNhatKy(h.id)});
-      save("lop",lopId,Object.assign({},D.lop[lopId],{capNhatLuc:ngayVN(today())+" "+gioNow()},linkDung?{linkTrangTinh:linkDung}:{}));
+      save("lop",lopId,Object.assign({},D.lop[lopId],{capNhatLuc:ngayVN(today())+" "+gioNow()},bangHT&&bangHT.tieuDe?{cotTrangTinh:cotDeLuu(bangHT.tieuDe,map)}:{}));
       closeModal();toast("Đã cập nhật: thêm "+them.length+", sửa "+sua.length+".")};
   }
 }
