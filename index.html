@@ -197,16 +197,22 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 @media (max-width:700px){
   body{font-size:15px}
   #nav{display:none}
-  #navPhone{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-  #navPhone button{font:inherit;font-size:11px;font-weight:600;border:none;background:none;color:var(--muted);padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
-  #navPhone button .ic{font-size:20px;line-height:1}
-  #navPhone button.on{color:var(--accent)}
-  main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  #navPhone{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;position:fixed;left:0;right:0;bottom:0;z-index:9;background:linear-gradient(180deg,#0d4182,#0c2f66 60%,#07224f);border-top:3px solid var(--warm);box-shadow:0 -4px 16px rgba(5,20,50,.35);padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  #navPhone button{font:inherit;font-size:12px;font-weight:600;border:1px solid transparent;background:transparent;color:#fff;border-radius:12px;padding:7px 2px 6px;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  #navPhone button .ic{width:23px;height:23px}
+  #navPhone button:active{background:rgba(255,255,255,.16)}
+  #navPhone button.on{background:#fff;color:var(--accent-deep);font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  #navPhone button.on .ic{color:var(--warm-deep)}
+  main{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
   .brand h1{font-size:19px}
   .brand .state,.hello{display:none}
   .top .logo svg{width:36px;height:36px}
-  .top-in{padding-block:10px 10px}
-  #lopSel{padding:7px 12px;font-size:13px}
+  .top-in{padding-block:16px 16px;gap:14px}
+  .top .brand h1{font-size:21px}
+  .top .brand .right{width:100%;flex-wrap:nowrap}
+  .top #lopSel{flex:1;min-width:0;padding:10px 14px;font-size:14px}
+  .top .brand .state{display:inline-block;flex:none;font-size:12px;padding:8px 10px;color:#fff;background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.6)}
+  .top .people{height:72px;max-height:72px}
   .card{padding:12px;border-radius:10px}
   .hero{padding:20px 16px}.hero h2{font-size:22px}
   .ev{font-size:13px;padding:7px 10px 7px 8px}
@@ -216,10 +222,10 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
   .msgbox .who .row .btn{flex:1}
   .list{max-height:50vh}
   .tiles{grid-template-columns:repeat(2,1fr)}
-  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .overlay{align-items:flex-end}
 }
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:12;background:var(--paper);border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding:12px 16px calc(80px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:12;background:var(--paper);border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding:12px 16px calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
 .sheet button{font:inherit;font-size:15px;font-weight:500;border:none;background:none;color:var(--ink);padding:12px 8px;text-align:left;border-radius:8px;cursor:pointer;border-bottom:1px solid var(--line)}
 .sheet button.on{color:var(--accent);font-weight:700}
 .tile{background:var(--bg);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column}
@@ -272,11 +278,11 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
   </nav>
 </div></div>
 <div id="navPhone" aria-label="Điều hướng">
-  <button data-tab="diemdanh"><span class="ic">☑</span>Điểm danh</button>
-  <button data-tab="nhan" class="on"><span class="ic">✉</span>Nhắn PH</button>
-  <button data-tab="calop"><span class="ic">👥</span>Cả lớp</button>
-  <button data-tab="so"><span class="ic">📒</span>Sổ</button>
-  <button data-tab="them" id="npThem"><span class="ic">⋯</span>Thêm</button>
+  <button data-tab="diemdanh"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Điểm danh</span></button>
+  <button data-tab="nhan" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M7 9h10M7 13h6"/></svg><span>Nhắn PH</span></button>
+  <button data-tab="calop"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.8 0 5 2.2 5 5"/></svg><span>Cả lớp</span></button>
+  <button data-tab="so"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6z"/><path d="M6 3v18M10 8h5M10 12h5"/></svg><span>Sổ</span></button>
+  <button data-tab="them" id="npThem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg><span>Thêm</span></button>
 </div>
 <main id="main"></main>
 <div id="modalRoot"></div>
@@ -377,6 +383,7 @@ async function boot(){
   setState();
 }
 
+function chuLop(t){t=String(t||"").trim();return /^lớp\b/i.test(t)?"lớp "+t.replace(/^lớp\s*/i,""):"lớp "+t}
 
 /* ===== BẢN MIỄN PHÍ: dữ liệu nằm trên trình duyệt của cô ===== */
 function layNgay(k){try{var v=localStorage.getItem(LS+k);return v?new Date(v):null}catch(e){return null}}
@@ -529,7 +536,7 @@ function soanTin(h,sk,chiTiet,loiCo){
 /* điều hướng */
 var TAB_THEM={tuan:1,lop:1,mau:1};
 function chonTab(t){tab=t;document.querySelectorAll("#nav button").forEach(function(x){x.classList.toggle("on",x.dataset.tab===t)});
-  document.querySelectorAll("#navPhone button").forEach(function(x){x.classList.toggle("on",x.dataset.tab===t||(x.dataset.tab==="them"&&TAB_THEM[t]))});
+  document.querySelectorAll("#navPhone button").forEach(function(x){x.classList.toggle("on",!!(x.dataset.tab===t||(x.dataset.tab==="them"&&TAB_THEM[t])))});
   var sh=$("#sheetThem");if(sh)sh.remove();window.scrollTo(0,0);render()}
 document.querySelectorAll("#nav button").forEach(function(b){b.onclick=function(){chonTab(b.dataset.tab)}});
 document.querySelectorAll("#navPhone button").forEach(function(b){b.onclick=function(){
@@ -591,7 +598,7 @@ function rDiemDanh(){
   var ngay=rDiemDanh.ngay||today();var id=lopId+"_"+ngay;var dd=D.diemdanh[id]||{lop:lopId,ngay:ngay,vang:{}};
   var hs=hsLop();var vang=dd.vang||{};var soVang=Object.keys(vang).length;
   var xinPhep=vals("thongbao").filter(function(t){return false});
-  $("#main").innerHTML='<div class="card"><div class="row between"><h2>Điểm danh lớp '+esc(lopHT().ten)+'</h2><input type="date" id="ddNgay" value="'+ngay+'" style="width:auto"></div>'+
+  $("#main").innerHTML='<div class="card"><div class="row between"><h2>Điểm danh '+esc(chuLop(lopHT().ten))+'</h2><input type="date" id="ddNgay" value="'+ngay+'" style="width:auto"></div>'+
   '<p class="note">Mặc định cả lớp có mặt. Với em nghỉ, bấm <b>Phép</b> (có phép) hoặc <b>Không</b> (không phép). Lưu xong, tin nhắn hỏi gia đình các em nghỉ không phép sẽ hiện ở mục "Nhắn phụ huynh".</p>'+
   '<div class="tiles"><div class="tile"><span class="k">Có mặt</span><span class="v" id="ddCo">'+(hs.length-soVang)+'/'+hs.length+'</span></div><div class="tile"><span class="k">Nghỉ có phép</span><span class="v" id="ddPhep">'+Object.keys(vang).filter(function(k){return vang[k]==="phep"}).length+'</span></div><div class="tile"><span class="k">Không phép</span><span class="v" id="ddKhong">'+Object.keys(vang).filter(function(k){return vang[k]==="khong"}).length+'</span></div></div>'+
   (hs.length?'<div class="list">'+hs.map(function(h,i){var v=vang[h.id]||"co";return'<div class="li'+(v==="khong"?" vang":v==="phep"?" phep":"")+'" data-row="'+h.id+'" style="grid-template-columns:28px 1fr auto;cursor:default"><span class="stt">'+(i+1)+'</span><span class="nm"><b>'+esc(h.ten)+'</b><small>'+esc(h.quanHe?h.quanHe+" "+h.phuHuynh:h.phuHuynh||"")+'</small></span><span class="st"><button data-dd="'+h.id+'" data-v="co" class="'+(v==="co"?"on-co":"")+'">Có mặt</button><button data-dd="'+h.id+'" data-v="phep" class="'+(v==="phep"?"on-phep":"")+'">Phép</button><button data-dd="'+h.id+'" data-v="khong" class="'+(v==="khong"?"on-khong":"")+'">Không</button></span></div>'}).join("")+'</div>':'<p class="empty">Lớp chưa có học sinh.</p>')+
@@ -752,7 +759,7 @@ function rLop(){
   '<div class="card"><div class="row between"><h2>Các lớp của '+esc(H.xungHo)+' ('+lops.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small" id="btnTruong">+ Trường</button><button class="btn small primary" id="btnLopMoi">+ Lớp</button></div>':"")+'</div>'+
   (lops.length?'<div class="tbl"><table><tr><th>Lớp</th><th>Vai trò</th><th>Trường</th><th>Sĩ số</th></tr>'+lops.map(function(l){var n=vals("hocsinh").filter(function(h){return h.lop===l.id}).length;return'<tr class="clickable" data-lopsua="'+l.id+'"><td><b>'+esc(l.ten)+'</b>'+(l.id===lopId?' <span class="pill good">đang mở</span>':"")+'</td><td>'+(l.vaiTro==="bomon"?"Bộ môn "+esc(l.mon||""):"Chủ nhiệm")+'</td><td>'+esc(truongTen(l.truong))+'</td><td>'+n+'</td></tr>'}).join("")+'</table></div>':'<p class="empty">Chưa có lớp.</p>')+
   (truongs.length?'<p class="note">Trường: '+truongs.map(function(t){return esc(t.ten)}).join(", ")+'</p>':"")+'</div>'+
-  (L?'<div class="card"><div class="row between"><h2>Học sinh lớp '+esc(L.ten)+' ('+hs.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small primary" id="btnCapNhat">Cập nhật từ trang tính của trường</button><button class="btn small" id="btnThem">+ Thêm 1 em</button><button class="btn small danger" id="btnXoaHet">Xóa hết học sinh lớp này</button></div>':"")+'</div>'+
+  (L?'<div class="card"><div class="row between"><h2>Học sinh '+esc(chuLop(L.ten))+' ('+hs.length+')</h2>'+(canWrite?'<div class="row"><button class="btn small primary" id="btnCapNhat">Cập nhật từ trang tính của trường</button><button class="btn small" id="btnThem">+ Thêm 1 em</button><button class="btn small danger" id="btnXoaHet">Xóa hết học sinh lớp này</button></div>':"")+'</div>'+
   (L.capNhatLuc?'<p class="note">Cập nhật từ trang tính lần cuối: '+esc(L.capNhatLuc)+'</p>':"")+
   (hs.length?'<div class="tbl"><table><tr><th>Họ tên</th><th>Ngày sinh</th><th>Phụ huynh</th><th>Điện thoại</th><th>Liên hệ 2</th><th>Địa chỉ</th></tr>'+hs.map(function(h){return'<tr class="clickable" data-edit="'+h.id+'"><td><b>'+esc(h.ten)+'</b>'+(h.biDanh?' <small style="color:var(--muted)">('+esc(h.biDanh)+')</small>':"")+'</td><td style="font-variant-numeric:tabular-nums">'+esc(h.ngaySinh||"")+'</td><td>'+esc((h.quanHe?h.quanHe+" ":"")+(h.phuHuynh||""))+'</td><td style="font-variant-numeric:tabular-nums">'+esc(h.sdt||"")+'</td><td>'+esc(h.lienHe2||"")+'</td><td>'+esc(h.diaChi||"")+'</td></tr>'}).join("")+'</table></div>':'<p class="empty">Chưa có học sinh. Nhanh nhất là "Cập nhật từ trang tính của trường".</p>')+'</div>':"");
   var b;if(b=$("#btnDuLieu"))b.onclick=moDuLieu;if(b=$("#btnHoso"))b.onclick=function(){formHoso()};if(b=$("#btnTruong"))b.onclick=formTruong;if(b=$("#btnLopMoi"))b.onclick=function(){formLop()};
