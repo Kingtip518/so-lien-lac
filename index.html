@@ -252,6 +252,19 @@ details.hd[open] summary{border-bottom:1px solid var(--line);background:var(--ac
 .hd-than p{margin:0}
 
 /* ===== TRANG BÌA ===== */
+.bia-sao{position:absolute;inset:0}
+.bia-sao .cham{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.75);opacity:.2;animation:lapLanh ease-in-out infinite}
+.bia-sao .sao{position:absolute;fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,.9));opacity:.15;transform:scale(.5) rotate(0deg);animation:saoNhay ease-in-out infinite}
+.bia-sao .sao.vang{fill:#ffd27a;filter:drop-shadow(0 0 8px rgba(245,165,36,.95))}
+@keyframes lapLanh{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes saoNhay{0%,100%{opacity:.1;transform:scale(.4) rotate(0deg)}45%{opacity:1;transform:scale(1.1) rotate(45deg)}60%{opacity:.85;transform:scale(.9) rotate(60deg)}}
+.bia-sao .bang{position:absolute;width:140px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.95));opacity:0;transform:rotate(28deg)}
+.bia-sao .bang::after{content:"";position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(255,255,255,.9)}
+.bia-sao .bang.b1{left:8%;top:16%;animation:saoBang 9s ease-in 2s infinite}
+.bia-sao .bang.b2{left:52%;top:8%;animation:saoBang 13s ease-in 6.5s infinite}
+@keyframes saoBang{0%{opacity:0;transform:rotate(28deg) translateX(0)}2%{opacity:1}9%{opacity:0;transform:rotate(28deg) translateX(320px)}100%{opacity:0;transform:rotate(28deg) translateX(320px)}}
+@media (prefers-reduced-motion:reduce){.bia-sao .cham,.bia-sao .sao{animation:none;opacity:.6}.bia-sao .bang{display:none}}
+
 body.dang-bia{overflow:hidden}
 #bia{position:fixed;inset:0;z-index:40;overflow-y:auto;color:#fff;background:radial-gradient(120% 70% at 50% 0%,#1d5bb0 0%,#0c2f66 48%,#061a3d 100%);display:flex;justify-content:center;align-items:center;padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(28px + env(safe-area-inset-bottom,0px));transition:opacity .5s ease,transform .5s ease}
 #bia.ra{opacity:0;transform:scale(1.04);pointer-events:none}
@@ -553,7 +566,7 @@ function veBia(){
         '<button class="bia-vao" id="biaVao" type="button"><span id="biaVaoChu">Vào sổ liên lạc</span><span class="mui" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>'+
         '<div id="biaPhu"></div>'+
       '</div>';
-    document.body.appendChild(b);document.body.classList.add("dang-bia");
+    document.body.appendChild(b);document.body.classList.add("dang-bia");rocSao(b.querySelector(".bia-nen"));
     $("#biaVao").onclick=vaoSo;
     $("#biaAnh").onclick=function(){if(!canWrite)return;chonAnhCo()};
     document.addEventListener("keydown",function k(e){if(daVaoSo){document.removeEventListener("keydown",k);return}if(e.key==="Enter"&&e.target.id!=="biaAnh"){e.preventDefault();vaoSo()}});
@@ -572,6 +585,18 @@ function veBia(){
   if(typeof coCauHinhMay==="function"&&coCauHinhMay()&&typeof NGUOI!=="undefined"&&!NGUOI)phu='<button class="bia-dn" id="biaDn" type="button">Đã dùng trên máy khác? <b>Đăng nhập Google</b></button>';
   else if(H.anh)phu='<p class="bia-goi">Chạm vào ảnh để thay ảnh khác</p>';
   $("#biaPhu").innerHTML=phu;var dn=$("#biaDn");if(dn)dn.onclick=dangNhapGoogle;
+}
+
+// Ngôi sao lấp lánh trên trang bìa: chấm sáng nhỏ nhấp nháy, sao bốn cánh vàng to hơn, thỉnh thoảng một vệt sao băng
+function rocSao(nen){
+  if(!nen)return;var h="",ngau=Math.random;
+  var it=window.innerWidth<600;var nCham=it?38:70,nSao=it?9:16;
+  for(var i=0;i<nCham;i++){var k=(1+ngau()*2.4).toFixed(1);
+    h+='<i class="cham" style="left:'+(ngau()*100).toFixed(1)+'%;top:'+(ngau()*100).toFixed(1)+'%;width:'+k+'px;height:'+k+'px;animation-duration:'+(2+ngau()*3).toFixed(1)+'s;animation-delay:-'+(ngau()*5).toFixed(1)+'s"></i>'}
+  for(var j=0;j<nSao;j++){var c=(10+ngau()*16).toFixed(0),vang=ngau()<.55;
+    h+='<svg class="sao'+(vang?' vang':'')+'" viewBox="0 0 24 24" style="left:'+(ngau()*94+2).toFixed(1)+'%;top:'+(ngau()*92+2).toFixed(1)+'%;width:'+c+'px;height:'+c+'px;animation-duration:'+(2.6+ngau()*3).toFixed(1)+'s;animation-delay:-'+(ngau()*6).toFixed(1)+'s"><path d="M12 0C12.8 7 17 11.2 24 12 17 12.8 12.8 17 12 24 11.2 17 7 12.8 0 12 7 11.2 11.2 7 12 0z"/></svg>'}
+  h+='<i class="bang b1"></i><i class="bang b2"></i>';
+  var d=document.createElement("div");d.className="bia-sao";d.innerHTML=h;nen.appendChild(d);
 }
 function vaoSo(){
   if(daVaoSo)return;daVaoSo=true;var b=$("#bia");document.body.classList.remove("dang-bia");
