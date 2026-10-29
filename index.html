@@ -405,8 +405,8 @@ tr.an{display:none}
   <nav id="nav">
     <button data-tab="diemdanh">Điểm danh</button>
     <button data-tab="nhan" class="on">Nhắn phụ huynh</button>
-    <button data-tab="calop">Cả lớp</button>
     <button data-tab="hocthem">Học thêm</button>
+    <button data-tab="calop">Cả lớp</button>
     <button data-tab="tuan">Thư cuối tuần</button>
     <button data-tab="so">Sổ theo dõi</button>
     <button data-tab="lop">Trường & lớp</button>
@@ -417,7 +417,7 @@ tr.an{display:none}
 <div id="navPhone" aria-label="Điều hướng">
   <button data-tab="diemdanh"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Điểm danh</span></button>
   <button data-tab="nhan" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M7 9h10M7 13h6"/></svg><span>Nhắn PH</span></button>
-  <button data-tab="calop"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.8 0 5 2.2 5 5"/></svg><span>Cả lớp</span></button>
+  <button data-tab="hocthem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c3 2.5 7 2.5 10 0v-5"/><path d="M21 9v6"/></svg><span>Học thêm</span></button>
   <button data-tab="so"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6z"/><path d="M6 3v18M10 8h5M10 12h5"/></svg><span>Sổ</span></button>
   <button data-tab="them" id="npThem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg><span>Thêm</span></button>
 </div>
@@ -575,7 +575,7 @@ function rHuongDan(){
     '<li>Bấm <b>Ghi sổ … em</b> để lưu việc vào sổ theo dõi và đánh dấu đã gửi. Chưa muốn gửi thì bấm <b>Chỉ ghi sổ, chưa gửi</b>.</li></ol>'+
     '<p class="note">Zalo không cho trang web khác điền sẵn chữ vào ô nhắn, nên cô cần bấm Dán một lần. Nút Gửi qua Zalo bị mờ nghĩa là em đó chưa có số điện thoại phụ huynh.</p>',"nhan","Mở Nhắn phụ huynh")+
   muc("calop",["5","Tin nhóm lớp và thông báo"],"Cuối ngày gửi một tin chung",
-    '<ol><li>Mở <b>Cả lớp</b>. Sổ soạn sẵn <b>Tin tóm tắt gửi nhóm lớp</b>: sĩ số, việc chung, lời khen.</li>'+
+    '<ol><li>Mở <b>Cả lớp</b> (điện thoại: <b>Thêm</b> → <b>Cả lớp</b>). Sổ soạn sẵn <b>Tin tóm tắt gửi nhóm lớp</b>: sĩ số, việc chung, lời khen.</li>'+
     '<li>Lần đầu, bấm <b>Thêm đường dẫn nhóm Zalo</b> và dán link nhóm (Zalo → mở nhóm → Thông tin nhóm → Link tham gia nhóm).</li>'+
     '<li>Từ đó chỉ cần bấm <b>Gửi vào nhóm Zalo lớp</b> rồi dán tin.</li>'+
     '<li>Việc cần thu, cần nộp (bảo hiểm y tế, giấy tờ, xác nhận dã ngoại): bấm <b>+ Thông báo</b>, sau đó tích từng em đã nộp. Bấm <b>Tin nhắc … nhà</b> để có tin nhắc riêng cho những nhà chưa nộp.</li></ol>'+
@@ -585,7 +585,7 @@ function rHuongDan(){
     '<li>Sổ tự tổng hợp 7 ngày qua từ điểm danh và sổ theo dõi, viết thư cho <b>từng nhà</b>, kể cả em không có việc gì.</li>'+
     '<li>Cô đọc lại, bấm <b>Sao chép</b> rồi gửi Zalo cho từng phụ huynh.</li></ol>',"tuan","Mở Thư cuối tuần")+
   muc("hocthem",["7","Theo dõi học thêm"],"Điểm danh buổi học thêm, tính chuyên cần từng em",
-    '<ol><li>Vào <b>Học thêm</b> (điện thoại: <b>Thêm</b> → <b>Học thêm</b>), bấm <b>+ Nhóm học thêm</b>.</li>'+
+    '<ol><li>Vào <b>Học thêm</b> (điện thoại: nút <b>Học thêm</b> ở thanh dưới), bấm <b>+ Nhóm học thêm</b>.</li>'+
     '<li>Đặt tên nhóm (ví dụ Phụ đạo Toán), chọn <b>các thứ trong tuần</b> có học, giờ học, đơn giá nếu có.</li>'+
     '<li><b>Đăng ký em học thêm ngay ở danh sách lớp</b> (mục Trường & lớp): cột <b>Học thêm</b> có nút <b>+ Đăng ký</b>; em thôi học thì bấm lại nút <b>✓ Đang học</b>. Danh sách nhóm tự cập nhật theo.</li>'+
     '<li>Mỗi buổi: mở <b>Điểm danh buổi</b>, <b>bấm vào tên em nào có học</b> (hiện dấu ✓ xanh). Em không được bấm là vắng; gia đình đã xin phép thì bấm <b>Có phép</b>. Em ngoài nhóm đến học thì mở <b>Em khác trong lớp</b> và bấm tên, sổ tự thêm em vào nhóm. Ghi nội dung buổi nếu muốn rồi bấm <b>Lưu buổi học</b>.</li>'+
@@ -809,7 +809,7 @@ function htBang(n){
     '<span class="row"><button class="btn small primary" id="htXls">Xuất Excel</button><button class="btn small" id="htIn">In bảng</button></span></div>'+
     '<div class="tiles" style="margin-top:10px"><div class="tile"><span class="k">Số buổi đã học</span><span class="v">'+hoc.length+'</span></div><div class="tile"><span class="k">Chuyên cần trung bình</span><span class="v">'+(tyLeTB==null?"–":Math.round(tyLeTB*100)+"%")+'</span></div><div class="tile"><span class="k">Em cần để ý</span><span class="v">'+yy.length+'</span></div>'+
       (coTien?'<div class="tile"><span class="k">Thành tiền ('+tien(gia)+' đ/buổi)</span><span class="v">'+tien(tongTien)+' đ</span></div>'+(daNop?'<div class="tile"><span class="k">Đã thu / còn lại</span><span class="v ht-thu-v">'+tien(daThu)+' / '+tien(tongTien-daThu)+'</span></div>':''):'')+'</div>'+
-    (coTien?'':'<p class="note" style="margin-top:6px">Chưa đặt đơn giá mỗi buổi. Muốn tính thành tiền, bấm <b>Sửa nhóm đang chọn</b> và nhập đơn giá.</p>')+
+    (coTien?'':'<div class="row" style="margin-top:8px"><span class="note">Chưa đặt đơn giá mỗi buổi nên chưa tính thành tiền.</span>'+(canWrite?'<button class="btn small primary" id="htDatGia">Đặt đơn giá</button>':'')+'</div>')+
     (yy.length?'<div class="goiy" style="margin-top:10px;background:var(--warn-soft)"><b>Cần để ý:</b> '+yy.map(function(x){return esc(tenGoi(x.h))+" ("+(x.r.chuoi>=2?"vắng "+x.r.chuoi+" buổi liền":x.r.khong>=2?x.r.khong+" buổi không phép":"đi "+x.r.co+"/"+x.r.tong+" buổi")+")"}).join(", ")+'. Cô nên hỏi thăm gia đình.</div>':'')+
     (bs.length&&tv.length?'<div class="ht-bang" id="htBangIn"><table><thead><tr><th class="ten">Học sinh</th>'+bs.map(function(b){var d=new Date(b.ngay+"T00:00:00");return'<th class="o'+(b.huy?" huy":"")+'" title="'+esc(b.noiDung||"")+'"><span>'+TEN_THU[d.getDay()]+'</span>'+ngayVN(b.ngay).slice(0,5)+'</th>'}).join("")+'<th class="so">Có học</th><th class="so">P</th><th class="so">K</th><th class="so">Tỷ lệ</th>'+(coTien?'<th class="so">Thành tiền</th>'+(daNop?'<th class="so">Đã nộp</th>':''):'')+'</tr></thead><tbody>'+
       rs.map(function(x,i){return'<tr class="'+(x.r.canYY?"yy":"")+'"><td class="ten">'+(i+1)+'. '+esc(x.h.ten)+'</td>'+bs.map(function(b){if(b.huy)return'<td class="o huy">nghỉ</td>';if((b.ds||[]).indexOf(x.h.id)<0)return'<td class="o ngoai">·</td>';var v=(b.vang||{})[x.h.id];return v==="phep"?'<td class="o p">P</td>':v==="khong"?'<td class="o k">K</td>':'<td class="o c">✓</td>'}).join("")+
@@ -820,6 +820,7 @@ function htBang(n){
      :'<p class="empty">Chưa có buổi học nào trong '+(ky==="all"?"đợt này":tenThang(ky))+'.</p>');
   $("#htThan").innerHTML=o;
   $("#htKy").onchange=function(){rHocThem.ky=this.value;render()};
+  var dg=$("#htDatGia");if(dg)dg.onclick=function(){formNhomHoc(n.id);setTimeout(function(){var g=$("#nhGia");if(g){g.scrollIntoView({block:"center"});g.focus()}},50)};
   document.querySelectorAll("[data-htnop]").forEach(function(b){b.onclick=function(){var nn=Object.assign({},D.nhomhoc[n.id]),dn=Object.assign({},nn.daNop||{}),m=Object.assign({},dn[ky]||{});
     if(m[b.dataset.htnop])delete m[b.dataset.htnop];else m[b.dataset.htnop]=true;dn[ky]=m;nn.daNop=dn;save("nhomhoc",n.id,nn)}});
   $("#htXls").onclick=function(){if(!bs.length||!tv.length){toast("Chưa có buổi học để xuất.");return}xuatExcelHT(n,ky,bs,rs,daNop)};
@@ -1244,7 +1245,7 @@ function soanTin(h,sk,chiTiet,loiCo){
 }
 
 /* điều hướng */
-var TAB_THEM={tuan:1,hocthem:1,lop:1,mau:1,huongdan:1};
+var TAB_THEM={tuan:1,calop:1,lop:1,mau:1,huongdan:1};
 function chonTab(t){tab=t;document.querySelectorAll("#nav button").forEach(function(x){x.classList.toggle("on",x.dataset.tab===t)});
   document.querySelectorAll("#navPhone button").forEach(function(x){x.classList.toggle("on",!!(x.dataset.tab===t||(x.dataset.tab==="them"&&TAB_THEM[t])))});
   var sh=$("#sheetThem");if(sh)sh.remove();window.scrollTo(0,0);render()}
@@ -1253,7 +1254,7 @@ document.querySelectorAll("#navPhone button").forEach(function(b){b.onclick=func
   if(b.dataset.tab!=="them"){chonTab(b.dataset.tab);return}
   var sh=$("#sheetThem");if(sh){sh.remove();return}
   var d=document.createElement("div");d.id="sheetThem";d.className="sheet";
-  d.innerHTML=[["tuan","Thư cuối tuần"],["hocthem","Học thêm"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"],["huongdan","Hướng dẫn sử dụng"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  d.innerHTML=[["calop","Cả lớp: tin nhóm, thông báo"],["tuan","Thư cuối tuần"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"],["huongdan","Hướng dẫn sử dụng"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
   document.body.appendChild(d);d.querySelectorAll("[data-t]").forEach(function(x){x.onclick=function(){if(x.dataset.t==="saoluu"){var sh=$("#sheetThem");if(sh)sh.remove();moDuLieu();return}chonTab(x.dataset.t)}})}});
 // Đường dẫn mở Zalo với một số điện thoại; trả về null nếu số không hợp lệ
 function zaloLink(sdt){var d=String(sdt||"").replace(/\D/g,"");if(d.length<9)return null;if(d.charAt(0)==="0")d="84"+d.slice(1);return"https://zalo.me/"+d}
