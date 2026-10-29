@@ -312,6 +312,47 @@ body.dang-bia{overflow:hidden}
 @media (max-height:700px){.bia-anh{width:132px;height:132px;margin:10px 0 2px}.bia-cau{margin-top:6px;padding:12px 16px}.bia-ten{font-size:30px}}
 @media (prefers-reduced-motion:reduce){.bia-anh .vong,.bia-anh.trong .may,.bia-giua{animation:none}#bia{transition:none}}
 
+/* Học thêm */
+.ht-li{grid-template-columns:1fr auto!important;padding:0!important;cursor:default}
+.ht-cham{font:inherit;color:inherit;background:none;border:none;display:grid;grid-template-columns:28px 32px 1fr;gap:8px;align-items:center;padding:10px;text-align:left;cursor:pointer;min-width:0;width:100%}
+.ht-li.on{background:var(--good-soft)}
+.ht-li.on .box{background:var(--good);border-color:var(--good)}
+.ht-li.vang .nm b{color:var(--bad)}
+.ht-phep{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--line-strong);background:var(--paper);color:var(--muted);border-radius:6px;padding:5px 9px;margin-right:10px;cursor:pointer;white-space:nowrap}
+.ht-phep.on{background:var(--warn);border-color:var(--warn);color:#fff}
+.ht-ngoai{margin-top:10px}
+.ht-ngoai summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:14px;padding:6px 0}
+
+.ht-nhom{margin-top:10px;align-items:center}
+.ht-nhom .ev{border-radius:12px;padding:8px 12px;text-align:left;gap:10px}
+.ht-nhom .ev span:first-child{display:flex;flex-direction:column}
+.ht-nhom .ev small{font-size:12px;color:var(--muted);font-weight:500}
+.ht-nhom .ev.on small{color:#e3ecfb}
+.htso{min-width:22px;height:22px;border-radius:999px;background:var(--warm);color:var(--warm-ink);font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg);padding:4px;border-radius:12px}
+.seg button{font:inherit;font-size:14px;font-weight:600;border:none;background:none;color:var(--muted);padding:8px 6px;border-radius:9px;cursor:pointer;line-height:1.25}
+@media (max-width:420px){.seg button{font-size:13px}.ht-bang .ten{max-width:128px}}
+.seg button.on{background:var(--paper);color:var(--accent-deep);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.ht-thieu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:10px;padding:8px 10px}
+.ht-thu{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.ht-thu button{font:inherit;font-weight:700;padding:9px 0;border-radius:10px;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);cursor:pointer}
+.ht-thu button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ht-bang{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+.ht-bang table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
+.ht-bang th,.ht-bang td{padding:6px 7px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.ht-bang th{font-size:11px;color:var(--muted);font-weight:600;background:var(--paper)}
+.ht-bang th span{display:block;font-weight:500}
+.ht-bang .ten{text-align:left;position:sticky;left:0;background:var(--paper);z-index:1;border-right:1px solid var(--line);max-width:170px;overflow:hidden;text-overflow:ellipsis}
+.ht-bang td.c{color:var(--good);font-weight:700}
+.ht-bang td.p{background:var(--warn-soft);color:var(--warn);font-weight:700}
+.ht-bang td.k{background:var(--bad-soft);color:var(--bad);font-weight:700}
+.ht-bang td.huy,.ht-bang th.huy{color:var(--muted);font-style:italic;background:var(--bg)}
+.ht-bang td.ngoai{color:var(--line-strong)}
+.ht-bang td.so,.ht-bang th.so{font-variant-numeric:tabular-nums}
+.ht-bang tr.yy td.ten{color:var(--bad);font-weight:700}
+.ht-h3{font-size:15px;margin:0 0 8px}
+.banner.ht{background:var(--info-soft);color:var(--info);border:1px solid var(--info)}
+
 .top .state.tk{cursor:pointer}
 .top .state.tk.sap{background:var(--warm);color:var(--warm-ink);border-color:var(--warm)}
 .banner{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-radius:12px;padding:12px 14px;font-size:14px}
@@ -319,6 +360,11 @@ body.dang-bia{overflow:hidden}
 .banner.ok{background:var(--good-soft);color:var(--good);border:1px solid var(--good)}
 .detail dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:14px}
 .detail dt{color:var(--muted)} .detail dd{margin:0}
+.tk-ds{margin:4px 0 8px;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.ks-thang{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px}
+.ks-thang button{font:inherit;font-weight:700;font-size:16px;padding:10px 0;border-radius:10px;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);cursor:pointer}
+.ks-thang button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ks-nhan{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:3px}
 @media (max-width:700px){.brand .state{display:inline-block!important;font-size:11px;padding:3px 8px}}
 </style>
 
@@ -348,6 +394,7 @@ body.dang-bia{overflow:hidden}
     <button data-tab="diemdanh">Điểm danh</button>
     <button data-tab="nhan" class="on">Nhắn phụ huynh</button>
     <button data-tab="calop">Cả lớp</button>
+    <button data-tab="hocthem">Học thêm</button>
     <button data-tab="tuan">Thư cuối tuần</button>
     <button data-tab="so">Sổ theo dõi</button>
     <button data-tab="lop">Trường & lớp</button>
@@ -419,7 +466,7 @@ var SU_KIEN_MAC_DINH=[
 ];
 var XAU={chuaBT:1,chuaThuoc:1,diemKem:1,khongTapTrung:1,diMuon:1,nghiHoc:1,quenDo:1,dongPhuc:1,kyLuat:1,xoXat:1,dienThoai:1};
 var KHEN={diemTot:1,tienBo:1,ngoan:1,giai:1};
-var D={hoso:{},truong:{},lop:{},hocsinh:{},sukien:{},diemdanh:{},thongbao:{},mau:{}};
+var D={hoso:{},truong:{},lop:{},hocsinh:{},sukien:{},diemdanh:{},thongbao:{},mau:{},nhomhoc:{},buoihoc:{}};
 var db=null,canWrite=true,tab="nhan",LS="so-lien-lac-co-v2",lopId=null;
 var $=function(s,el){return (el||document).querySelector(s)};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -484,8 +531,9 @@ function rHuongDan(){
     '<ol><li>Chưa đăng nhập thì dữ liệu chỉ nằm trên trình duyệt của máy đang dùng.</li><li>Mỗi tuần bấm nhãn ở góc trên, chọn <b>Tải tệp sao lưu</b>, rồi cất tệp vào Google Drive hoặc gửi Zalo cho chính mình.</li><li>Đổi máy: mở trang trên máy mới, chọn <b>Khôi phục từ tệp</b>.</li></ol>'
    :'<ol><li>Dữ liệu tự lưu vào tài khoản của cô, mở lại trang trên máy nào cũng thấy.</li></ol>');
   if(banMienPhi&&dongBo)dl+='<p>Ngoài ra cô vẫn nên thỉnh thoảng <b>Tải tệp sao lưu</b> để cất riêng một bản.</p>';
+  if(dongBo)dl+='<p><b>Chương trình dùng thử:</b> sau khi đăng nhập, sổ mời cô tham gia. Nếu đồng ý, sổ chỉ <b>đếm số lần</b> cô điểm danh, gửi tin, ghi khen… để đánh giá sổ có giúp ích không. Sổ không ghi nội dung tin nhắn, tên học sinh hay số điện thoại phụ huynh. Dừng tham gia: bấm nhãn ở góc trên → <b>Dừng tham gia</b>.</p>';
   $("#main").innerHTML='<div class="card hd-dau"><h2>Hướng dẫn sử dụng</h2><p class="note">Bấm vào từng mục để xem cách làm. Lần đầu dùng, cô làm mục 1 và 2. Sau đó mỗi ngày chỉ dùng mục 3, 4 và 5.</p>'+
-    '<div class="hd-ngay"><b>Một ngày của cô với sổ:</b><span>Đầu giờ <b>Điểm danh</b></span><span>Trong ngày bấm <b>Nhắn PH</b> ghi việc từng em</span><span>Cuối ngày gửi <b>Cả lớp</b> vào nhóm Zalo</span><span>Cuối tuần gửi <b>Thư cuối tuần</b></span></div></div>'+
+    '<div class="hd-ngay"><b>Một ngày của cô với sổ:</b><span>Đầu giờ <b>Điểm danh</b></span><span>Trong ngày bấm <b>Nhắn PH</b> ghi việc từng em</span><span>Cuối ngày gửi <b>Cả lớp</b> vào nhóm Zalo</span><span>Cuối tuần gửi <b>Thư cuối tuần</b></span></div>'+(typeof moKhaoSat==="function"?'<div class="row" style="margin-top:12px"><button class="btn small primary" id="hdGopY">Góp ý cho sổ</button><span class="note">Sổ đang dùng thử miễn phí, mọi góp ý của cô đều quý.</span></div>':'')+'</div>'+
   muc("batdau",["1","Khai báo cô và lớp"],"Làm một lần khi mới dùng",
     '<ol><li>Vào <b>Trường & lớp</b> (trên điện thoại: bấm <b>Thêm</b> → <b>Trường & lớp</b>).</li>'+
     '<li>Ở thẻ tên cô, bấm <b>Sửa</b>: điền họ tên, cách xưng hô (cô, thầy) và lời ký cuối tin nhắn.</li>'+
@@ -524,15 +572,23 @@ function rHuongDan(){
     '<ol><li>Vào <b>Thư cuối tuần</b> (điện thoại: <b>Thêm</b> → <b>Thư cuối tuần</b>).</li>'+
     '<li>Sổ tự tổng hợp 7 ngày qua từ điểm danh và sổ theo dõi, viết thư cho <b>từng nhà</b>, kể cả em không có việc gì.</li>'+
     '<li>Cô đọc lại, bấm <b>Sao chép</b> rồi gửi Zalo cho từng phụ huynh.</li></ol>',"tuan","Mở Thư cuối tuần")+
-  muc("so",["7","Sổ theo dõi"],"Xem lại mọi việc đã ghi",
+  muc("hocthem",["7","Theo dõi học thêm"],"Điểm danh buổi học thêm, tính chuyên cần từng em",
+    '<ol><li>Vào <b>Học thêm</b> (điện thoại: <b>Thêm</b> → <b>Học thêm</b>), bấm <b>+ Nhóm học thêm</b>.</li>'+
+    '<li>Đặt tên nhóm (ví dụ Phụ đạo Toán), chọn <b>các thứ trong tuần</b> có học, giờ học, rồi <b>tích các em</b> trong lớp tham gia.</li>'+
+    '<li>Mỗi buổi: mở <b>Điểm danh buổi</b>, <b>bấm vào tên em nào có học</b> (hiện dấu ✓ xanh). Em không được bấm là vắng; gia đình đã xin phép thì bấm <b>Có phép</b>. Em ngoài nhóm đến học thì mở <b>Em khác trong lớp</b> và bấm tên, sổ tự thêm em vào nhóm. Ghi nội dung buổi nếu muốn rồi bấm <b>Lưu buổi học</b>.</li>'+
+    '<li>Sổ tự <b>nhắc buổi theo lịch chưa điểm danh</b> (chấm cam trên tên nhóm) và nhắc ở mục Điểm danh vào ngày có học.</li>'+
+    '<li><b>Bảng theo dõi</b> giống sổ điểm danh giấy: mỗi cột một buổi, có tổng có mặt, vắng, tỷ lệ chuyên cần; tải ra Excel hoặc in.</li>'+
+    '<li><b>Báo phụ huynh</b>: tin hỏi thăm em vắng không phép và tin tổng kết tháng cho từng nhà, gửi qua Zalo. Thư cuối tuần cũng tự có dòng học thêm.</li></ol>'+
+    '<p class="note">Buổi cô cho nghỉ thì bấm <b>Buổi này nghỉ</b>, sổ không tính vào chuyên cần. Hết đợt học thì vào <b>Sửa nhóm</b> → <b>Kết thúc nhóm</b>, số liệu vẫn được giữ. Lưu ý quy định dạy thêm, học thêm hiện hành (Thông tư 29/2024/TT-BGDĐT): dạy thêm trong nhà trường không thu tiền của học sinh; tiểu học chỉ tổ chức bồi dưỡng nghệ thuật, thể dục thể thao, rèn luyện kỹ năng sống.</p>',"hocthem","Mở Học thêm")+
+  muc("so",["8","Sổ theo dõi"],"Xem lại mọi việc đã ghi",
     '<ol><li>Mở <b>Sổ</b> để xem các việc đã ghi theo ngày, lọc theo từng em.</li>'+
     '<li>Phần <b>Em nào cần để ý</b> liệt kê em có từ 3 việc chưa tốt trong 30 ngày. Với các em này, cô nên gọi điện hoặc hẹn gặp phụ huynh thay vì nhắn từng việc.</li>'+
     '<li>Ghi nhầm thì bấm <b>Xóa</b> ở dòng đó.</li></ol>',"so","Mở Sổ theo dõi")+
-  muc("mau",["8","Sửa mẫu tin nhắn theo giọng của cô"],"Tin nghe như chính cô viết",
+  muc("mau",["9","Sửa mẫu tin nhắn theo giọng của cô"],"Tin nghe như chính cô viết",
     '<ol><li>Vào <b>Mẫu tin</b> (điện thoại: <b>Thêm</b> → <b>Mẫu tin nhắn</b>).</li>'+
     '<li>Chọn sự việc, sửa câu chữ theo cách cô hay nói. Giữ nguyên các chỗ trong ngoặc nhọn: <b>{ph}</b> là cách gọi phụ huynh (Mẹ Thảo Nguyên), <b>{hs}</b> là con, <b>{co}</b> là cách cô xưng.</li>'+
     '<li>Bấm <b>+ Mẫu mới</b> để thêm sự việc riêng mà lớp mình hay gặp. Mẫu nào không dùng thì ẩn đi cho gọn.</li></ol>',"mau","Mở Mẫu tin")+
-  muc("dulieu",["9","Dùng trên cả điện thoại và máy tính"],dongBo?"Đăng nhập Google, dữ liệu tự đồng bộ":"Giữ dữ liệu an toàn",dl,"","")+
+  muc("dulieu",["10","Dùng trên cả điện thoại và máy tính"],dongBo?"Đăng nhập Google, dữ liệu tự đồng bộ":"Giữ dữ liệu an toàn",dl,"","")+
   muc("hoi",["?","Câu hỏi hay gặp"],"Khi có gì đó không như ý",
     '<p><b>Bấm Gửi qua Zalo mà mở Zalo trên web, không mở ứng dụng?</b><br>Máy tính cần cài Zalo PC. Điện thoại cần cài ứng dụng Zalo và mở trang bằng Chrome hoặc Safari.</p>'+
     '<p><b>Mở Zalo rồi mà không thấy tin?</b><br>Tin đã được sao chép sẵn, cô chỉ cần chạm giữ ô nhắn → <b>Dán</b> (máy tính: Ctrl + V).</p>'+
@@ -541,6 +597,7 @@ function rHuongDan(){
     (dongBo?'<p><b>Điện thoại không thấy dữ liệu như máy tính?</b><br>Kiểm tra hai máy đăng nhập <b>cùng một Gmail</b> (bấm nhãn ở góc trên để xem tài khoản), và nhãn hiện "Đã đồng bộ".</p>':'')+
     '<p><b>Trang chưa hiện bản mới?</b><br>Máy tính bấm Ctrl + F5. Điện thoại đóng hẳn thẻ trang rồi mở lại.</p>',"","");
   document.querySelectorAll("[data-mo]").forEach(function(b){b.onclick=function(){chonTab(b.dataset.mo)}});
+  var gy=$("#hdGopY");if(gy)gy.onclick=moKhaoSat;
 }
 
 
@@ -616,6 +673,188 @@ function chonAnhCo(xong){
       im.onerror=function(){toast("Không đọc được ảnh này, cô chọn ảnh khác nhé.")};im.src=r.result};
     r.readAsDataURL(f)};
   i.click();
+}
+
+
+/* ===== HỌC THÊM: nhóm học thêm gồm một số em trong lớp, điểm danh từng buổi, theo dõi chuyên cần =====
+   nhomhoc : {lop, ten, loai, lich:[0..6 là CN..T7], gio, hs:[mã học sinh], batDau, dong}
+   buoihoc : {lop, nhom, ngay, ds:[mã em thuộc nhóm lúc điểm danh], vang:{mã:"phep"|"khong"}, noiDung, huy} — mã buổi = mãNhóm_ngày */
+var LOAI_HT={phuDao:"Phụ đạo",boiDuong:"Bồi dưỡng",onThi:"Ôn thi",nangKhieu:"Năng khiếu, kỹ năng"};
+var TEN_THU=["CN","T2","T3","T4","T5","T6","T7"];
+function nhomLop(){return vals("nhomhoc").filter(function(n){return n.lop===lopId&&!n.dong}).sort(function(a,b){return a.ten.localeCompare(b.ten,"vi")})}
+function buoiCua(nid){return vals("buoihoc").filter(function(b){return b.nhom===nid}).sort(function(a,b){return a.ngay.localeCompare(b.ngay)})}
+function thanhVien(n){var m={};(n.hs||[]).forEach(function(k){m[k]=1});return hsLop().filter(function(h){return m[h.id]})}
+function lichChu(n){var l=(n.lich||[]).slice().sort(function(a,b){return (a||7)-(b||7)});return (l.length?l.map(function(d){return TEN_THU[d]}).join(", "):"chưa đặt lịch")+(n.gio?" · "+n.gio:"")}
+function coLich(n,ngay){return (n.lich||[]).indexOf(new Date(ngay+"T00:00:00").getDay())>=0}
+function nghiChinhKhoa(k,ngay){var dd=D.diemdanh[lopId+"_"+ngay];return dd&&dd.vang?dd.vang[k]:null}
+// Những ngày theo lịch (từ ngày bắt đầu đến hôm nay) mà cô chưa điểm danh
+function buoiThieu(n){var da={};buoiCua(n.id).forEach(function(b){da[b.ngay]=1});var out=[],d=n.batDau||today(),hn=today(),dem=0;
+  if(d<congNgay(hn,-60))d=congNgay(hn,-60);
+  while(d<=hn&&dem<400){if(coLich(n,d)&&!da[d])out.push(d);d=congNgay(d,1);dem++}return out}
+// Chuyên cần một em trong các buổi (bỏ buổi cô cho nghỉ)
+function chuyenCan(k,buois){var r={tong:0,co:0,phep:0,khong:0,chuoi:0,ky:[]};
+  buois.forEach(function(b){if(b.huy||(b.ds||[]).indexOf(k)<0)return;r.tong++;var v=(b.vang||{})[k];if(v==="phep")r.phep++;else if(v==="khong")r.khong++;else r.co++;r.ky.push(v||"co")});
+  for(var i=r.ky.length-1;i>=0&&r.ky[i]!=="co";i--)r.chuoi++;
+  r.tyLe=r.tong?r.co/r.tong:null;r.canYY=r.tong>0&&(r.khong>=2||r.chuoi>=2||(r.tong>=4&&r.tyLe<0.8));return r}
+function thangCua(s){return s.slice(0,7)}
+function tenThang(t){var p=t.split("-");return "tháng "+(+p[1])+"/"+p[0]}
+function dongHocThemTuan(h,tu,den){
+  var ds=vals("nhomhoc").filter(function(n){return n.lop===lopId&&(n.hs||[]).indexOf(h.id)>=0});if(!ds.length)return"";
+  var phan=ds.map(function(n){var r=chuyenCan(h.id,buoiCua(n.id).filter(function(b){return b.ngay>=tu&&b.ngay<=den}));
+    return r.tong?n.ten+" "+r.co+"/"+r.tong+" buổi"+(r.khong?" (vắng không phép "+r.khong+")":r.phep?" (vắng có phép "+r.phep+")":""):""}).filter(Boolean);
+  return phan.length?"• Học thêm: "+phan.join("; ")+".\n":""}
+// Nhắc ở mục Điểm danh và Nhắn phụ huynh: hôm nay có buổi học thêm chưa điểm danh
+function ganNhacHocThem(){
+  if(tab!=="diemdanh"&&tab!=="nhan")return;var hn=today();
+  var cho=nhomLop().filter(function(n){return coLich(n,hn)&&!D.buoihoc[n.id+"_"+hn]});if(!cho.length)return;
+  $("#main").insertAdjacentHTML("afterbegin",'<div class="banner ht"><span><b>Hôm nay có học thêm:</b> '+cho.map(function(n){return esc(n.ten)+(n.gio?" ("+esc(n.gio)+")":"")}).join(", ")+'</span><button class="btn small primary" id="htDi">Điểm danh học thêm</button></div>');
+  $("#htDi").onclick=function(){rHocThem.nhom=cho[0].id;rHocThem.xem="dd";rHocThem.ngay=hn;chonTab("hocthem")}}
+
+function rHocThem(){
+  var L=lopHT(),ns=nhomLop();
+  if(!ns.some(function(n){return n.id===rHocThem.nhom}))rHocThem.nhom=ns.length?ns[0].id:null;
+  var n=rHocThem.nhom?Object.assign({id:rHocThem.nhom},D.nhomhoc[rHocThem.nhom]):null;
+  var dau='<div class="card"><div class="row between"><h2>Học thêm · '+esc(chuLop(L.ten))+'</h2>'+(canWrite?'<button class="btn small primary" id="htMoi">+ Nhóm học thêm</button>':'')+'</div>'+
+    (ns.length?'<div class="chips ht-nhom">'+ns.map(function(x){var thieu=buoiThieu(x).length;return'<button class="ev'+(n&&x.id===n.id?" on":"")+'" data-htn="'+x.id+'"><span><b>'+esc(x.ten)+'</b><small>'+esc(lichChu(x))+' · '+(x.hs||[]).length+' em</small></span>'+(thieu?'<span class="htso" title="Buổi chưa điểm danh">'+thieu+'</span>':'')+'</button>'}).join("")+(canWrite&&n?'<button class="btn small" data-htsua="1">Sửa nhóm đang chọn</button>':'')+'</div>'
+    :'<p class="note">Tạo nhóm cho các em học thêm (phụ đạo, bồi dưỡng, ôn thi, năng khiếu…), đặt lịch theo thứ trong tuần. Sổ sẽ nhắc buổi chưa điểm danh, tính chuyên cần từng em và soạn sẵn tin báo phụ huynh.</p>')+'</div>';
+  if(!n){$("#main").innerHTML=dau+'<div class="card empty">Lớp chưa có nhóm học thêm nào.</div>';ganHT();return}
+  var xem=rHocThem.xem||"dd";
+  var seg='<div class="seg" role="tablist">'+[["dd","Điểm danh buổi"],["bang","Bảng theo dõi"],["nhan","Báo phụ huynh"]].map(function(x){return'<button role="tab" data-htx="'+x[0]+'" class="'+(xem===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>';
+  $("#main").innerHTML=dau+'<div class="card">'+seg+'<div id="htThan"></div></div>';
+  ({dd:htDiemDanh,bang:htBang,nhan:htNhan})[xem](n);ganHT();
+}
+function ganHT(){
+  var b=$("#htMoi");if(b)b.onclick=function(){formNhomHoc()};
+  document.querySelectorAll("[data-htn]").forEach(function(x){x.onclick=function(){rHocThem.nhom=x.dataset.htn;rHocThem.ngay=null;render()}});
+  document.querySelectorAll("[data-htx]").forEach(function(x){x.onclick=function(){rHocThem.xem=x.dataset.htx;render()}});
+  var s=document.querySelector("[data-htsua]");if(s)s.onclick=function(){formNhomHoc(rHocThem.nhom)};
+}
+/* --- Điểm danh một buổi --- */
+function htDiemDanh(n){
+  var thieu=buoiThieu(n),hn=today();
+  var ngay=rHocThem.ngay||(coLich(n,hn)||!thieu.length?hn:thieu[thieu.length-1]);
+  var id=n.id+"_"+ngay,b=D.buoihoc[id],tv=thanhVien(n),laTV={};tv.forEach(function(h){laTV[h.id]=1});
+  var ngoai=hsLop().filter(function(h){return !laTV[h.id]});
+  // co: em có học; phep: em vắng có phép. Buổi mới: chưa em nào được đánh dấu học
+  var co={},phep={};
+  if(b&&!b.huy){(b.ds||[]).forEach(function(k){var v=(b.vang||{})[k];if(!v)co[k]=1;else if(v==="phep")phep[k]=1})}
+  else tv.forEach(function(h){if(nghiChinhKhoa(h.id,ngay))phep[h.id]=1});
+  var noiDungCu=buoiCua(n.id).map(function(x){return x.noiDung}).filter(Boolean).reverse().filter(function(v,i,a){return a.indexOf(v)===i}).slice(0,8);
+  function dong(x,i,laNgoai){var ck=nghiChinhKhoa(x.id,ngay);
+    return'<div class="li ht-li" data-htrow="'+x.id+'"><button type="button" class="ht-cham" data-htc="'+x.id+'" aria-pressed="false"><span class="stt">'+(i+1)+'</span><span class="box"></span><span class="nm"><b>'+esc(x.ten)+'</b><small>'+(ck?'Nghỉ học chính khóa hôm nay':laNgoai?'Chưa trong nhóm · bấm để ghi có học':esc(x.quanHe?x.quanHe+" "+(x.phuHuynh||""):""))+'</small></span></button>'+
+      (laNgoai?'':'<button type="button" class="ht-phep" data-htp="'+x.id+'">Có phép</button>')+'</div>'}
+  var h='<div class="row between" style="margin-top:12px"><div class="row"><input type="date" id="htNgay" value="'+ngay+'" style="width:auto"><span class="pill '+(b?(b.huy?"grey":"good"):"warn")+'">'+(b?(b.huy?"Buổi nghỉ":"Đã điểm danh"):"Chưa điểm danh")+'</span>'+(coLich(n,ngay)?'':'<span class="note">Ngày này không có trong lịch</span>')+'</div></div>'+
+    (thieu.length?'<div class="ht-thieu"><span>Buổi theo lịch chưa điểm danh:</span>'+thieu.slice(-8).map(function(d){return'<button class="btn small" data-htd="'+d+'">'+TEN_THU[new Date(d+"T00:00:00").getDay()]+' '+ngayVN(d).slice(0,5)+'</button>'}).join("")+'</div>':'')+
+    '<p class="note" style="margin-top:10px"><b>Em nào có học thì bấm vào tên em đó.</b> Em không được bấm tính là vắng; nếu gia đình đã xin phép thì bấm thêm <b>Có phép</b>.</p>'+
+    '<div class="tiles" style="margin-top:8px"><div class="tile"><span class="k">Có học</span><span class="v" id="htCo"></span></div><div class="tile"><span class="k">Vắng có phép</span><span class="v" id="htP"></span></div><div class="tile"><span class="k">Vắng không phép</span><span class="v" id="htK"></span></div></div>'+
+    (tv.length?'<div class="row" style="margin-top:8px"><button type="button" class="btn small" id="htHet">Cả nhóm có học</button><button type="button" class="btn small" id="htBo">Bỏ chọn hết</button></div><div class="list" style="margin-top:6px">'+tv.map(function(x,i){return dong(x,i,false)}).join("")+'</div>':'<p class="empty">Nhóm chưa có em nào. Bấm tên các em ở danh sách bên dưới, hoặc <b>Sửa nhóm đang chọn</b>.</p>')+
+    (ngoai.length?'<details class="ht-ngoai"'+(tv.length?'':' open')+'><summary>Em khác trong lớp đến học hôm nay ('+ngoai.length+' em)</summary><div class="list" style="margin-top:6px">'+ngoai.map(function(x,i){return dong(x,i,true)}).join("")+'</div><p class="note" style="margin-top:6px">Em nào được bấm ở đây sẽ được thêm vào nhóm khi lưu.</p></details>':'')+
+    '<div class="field" style="margin-top:10px"><label for="htND">Nội dung buổi học (không bắt buộc)</label><input id="htND" list="htNDds" value="'+esc(b&&b.noiDung||"")+'" placeholder="ví dụ: Ôn phép nhân có nhớ"><datalist id="htNDds">'+noiDungCu.map(function(v){return'<option value="'+esc(v)+'">'}).join("")+'</datalist></div>'+
+    (canWrite?'<div class="row"><button class="btn primary" id="htLuu">Lưu buổi học</button><button class="btn" id="htHuy">'+(b&&b.huy?"Bỏ đánh dấu nghỉ":"Buổi này nghỉ")+'</button>'+(b?'<button class="btn danger" id="htXoa">Xóa buổi</button>':'')+'</div>':'');
+  $("#htThan").innerHTML=h;
+  function ve(){var c=0,p=0,k=0;
+    document.querySelectorAll("[data-htrow]").forEach(function(r){var key=r.dataset.htrow,on=!!co[key],tvx=!!laTV[key],ph=!on&&!!phep[key];
+      r.className="li ht-li"+(on?" on":tvx?(ph?" phep":" vang"):"");r.querySelector(".box").textContent=on?"✓":"";r.querySelector(".ht-cham").setAttribute("aria-pressed",on);
+      var pb=r.querySelector(".ht-phep");if(pb){pb.style.visibility=on?"hidden":"";pb.classList.toggle("on",ph)}
+      if(tvx){if(on)c++;else if(ph)p++;else k++}else if(on)c++});
+    var tong=tv.length+Object.keys(co).filter(function(x){return co[x]&&!laTV[x]}).length;
+    $("#htCo").textContent=c+"/"+tong;$("#htP").textContent=p;$("#htK").textContent=k}
+  ve();
+  $("#htNgay").onchange=function(){rHocThem.ngay=this.value;render()};
+  document.querySelectorAll("[data-htd]").forEach(function(x){x.onclick=function(){rHocThem.ngay=x.dataset.htd;render()}});
+  document.querySelectorAll("[data-htc]").forEach(function(x){x.onclick=function(){var k=x.dataset.htc;co[k]=!co[k];if(co[k])delete phep[k];ve()}});
+  document.querySelectorAll("[data-htp]").forEach(function(x){x.onclick=function(){var k=x.dataset.htp;phep[k]=!phep[k];ve()}});
+  var het=$("#htHet");if(het)het.onclick=function(){tv.forEach(function(h){co[h.id]=true;delete phep[h.id]});ve()};
+  var bo=$("#htBo");if(bo)bo.onclick=function(){co={};ve()};
+  function luu(huy){
+    var them=ngoai.filter(function(h){return co[h.id]}).map(function(h){return h.id});
+    if(them.length&&!huy)save("nhomhoc",n.id,Object.assign({},D.nhomhoc[n.id],{hs:(D.nhomhoc[n.id].hs||[]).concat(them)}));
+    var ds=tv.map(function(x){return x.id}).concat(them),vang={};
+    if(!huy)ds.forEach(function(k){if(!co[k])vang[k]=phep[k]?"phep":"khong"});
+    save("buoihoc",id,{lop:lopId,nhom:n.id,ngay:ngay,ds:ds,vang:vang,noiDung:$("#htND").value.trim(),huy:!!huy});return them.length}
+  var l=$("#htLuu");if(l)l.onclick=function(){
+    var soHoc=Object.keys(co).filter(function(k){return co[k]}).length;
+    if(!soHoc){toast("Chưa em nào được bấm là có học. Nếu buổi này nghỉ, cô bấm Buổi này nghỉ.");return}
+    var them=luu(false),k=tv.filter(function(x){return !co[x.id]&&!phep[x.id]}).length;rHocThem.ngay=null;
+    toast("Đã lưu buổi "+ngayVN(ngay)+": "+soHoc+" em có học."+(them?" Đã thêm "+them+" em vào nhóm.":"")+(k?" "+k+" em vắng không phép, xem tin ở mục Báo phụ huynh.":""))};
+  var u=$("#htHuy");if(u)u.onclick=function(){if(b&&b.huy){remove("buoihoc",id);toast("Đã bỏ đánh dấu nghỉ.")}else{luu(true);toast("Đã ghi buổi "+ngayVN(ngay)+" nghỉ, không tính vào chuyên cần.")}};
+  var x=$("#htXoa");if(x)x.onclick=function(){xacNhan("Xóa buổi học ngày "+ngayVN(ngay)+"?",function(){remove("buoihoc",id);toast("Đã xóa buổi.")})};
+}
+/* --- Bảng theo dõi kiểu sổ điểm danh: mỗi cột một buổi --- */
+function htBang(n){
+  var tat=buoiCua(n.id),thangs=[];tat.forEach(function(b){var t=thangCua(b.ngay);if(thangs.indexOf(t)<0)thangs.push(t)});
+  var hnT=thangCua(today());if(thangs.indexOf(hnT)<0)thangs.push(hnT);thangs.sort().reverse();
+  var ky=rHocThem.ky||hnT;if(ky!=="all"&&thangs.indexOf(ky)<0)ky=hnT;
+  var bs=tat.filter(function(b){return ky==="all"||thangCua(b.ngay)===ky}),hoc=bs.filter(function(b){return !b.huy});
+  var tv=thanhVien(n),rs=tv.map(function(h){return{h:h,r:chuyenCan(h.id,bs)}});
+  var tb=rs.filter(function(x){return x.r.tong}),tyLeTB=tb.length?tb.reduce(function(s,x){return s+x.r.tyLe},0)/tb.length:null,yy=rs.filter(function(x){return x.r.canYY});
+  var o='<div class="row between" style="margin-top:12px"><select id="htKy" style="width:auto">'+thangs.map(function(t){return'<option value="'+t+'"'+(t===ky?" selected":"")+'>'+hoa(tenThang(t))+'</option>'}).join("")+'<option value="all"'+(ky==="all"?" selected":"")+'>Cả đợt</option></select>'+
+    '<span class="row"><button class="btn small" id="htCsv">Tải bảng (.csv)</button><button class="btn small" id="htIn">In bảng</button></span></div>'+
+    '<div class="tiles" style="margin-top:10px"><div class="tile"><span class="k">Số buổi đã học</span><span class="v">'+hoc.length+'</span></div><div class="tile"><span class="k">Chuyên cần trung bình</span><span class="v">'+(tyLeTB==null?"–":Math.round(tyLeTB*100)+"%")+'</span></div><div class="tile"><span class="k">Em cần để ý</span><span class="v">'+yy.length+'</span></div></div>'+
+    (yy.length?'<div class="goiy" style="margin-top:10px;background:var(--warn-soft)"><b>Cần để ý:</b> '+yy.map(function(x){return esc(tenGoi(x.h))+" ("+(x.r.chuoi>=2?"vắng "+x.r.chuoi+" buổi liền":x.r.khong>=2?x.r.khong+" buổi không phép":"đi "+x.r.co+"/"+x.r.tong+" buổi")+")"}).join(", ")+'. Cô nên hỏi thăm gia đình.</div>':'')+
+    (bs.length&&tv.length?'<div class="ht-bang" id="htBangIn"><table><thead><tr><th class="ten">Học sinh</th>'+bs.map(function(b){var d=new Date(b.ngay+"T00:00:00");return'<th class="o'+(b.huy?" huy":"")+'" title="'+esc(b.noiDung||"")+'"><span>'+TEN_THU[d.getDay()]+'</span>'+ngayVN(b.ngay).slice(0,5)+'</th>'}).join("")+'<th class="so">Có mặt</th><th class="so">P</th><th class="so">K</th><th class="so">Tỷ lệ</th></tr></thead><tbody>'+
+      rs.map(function(x,i){return'<tr class="'+(x.r.canYY?"yy":"")+'"><td class="ten">'+(i+1)+'. '+esc(x.h.ten)+'</td>'+bs.map(function(b){if(b.huy)return'<td class="o huy">nghỉ</td>';if((b.ds||[]).indexOf(x.h.id)<0)return'<td class="o ngoai">·</td>';var v=(b.vang||{})[x.h.id];return v==="phep"?'<td class="o p">P</td>':v==="khong"?'<td class="o k">K</td>':'<td class="o c">✓</td>'}).join("")+
+        '<td class="so">'+x.r.co+'/'+x.r.tong+'</td><td class="so">'+x.r.phep+'</td><td class="so">'+x.r.khong+'</td><td class="so"><b>'+(x.r.tyLe==null?"–":Math.round(x.r.tyLe*100)+"%")+'</b></td></tr>'}).join("")+'</tbody></table></div>'+
+      '<p class="note" style="margin-top:6px">✓ có mặt · P vắng có phép · K vắng không phép · "nghỉ" là buổi cô cho nghỉ, không tính. Em cần để ý: vắng 2 buổi liền, hoặc 2 buổi không phép, hoặc đi dưới 80% số buổi.</p>'
+     :'<p class="empty">Chưa có buổi học nào trong '+(ky==="all"?"đợt này":tenThang(ky))+'.</p>');
+  $("#htThan").innerHTML=o;
+  $("#htKy").onchange=function(){rHocThem.ky=this.value;render()};
+  $("#htCsv").onclick=function(){var dong=[["STT","Học sinh"].concat(bs.map(function(b){return ngayVN(b.ngay)})).concat(["Có mặt","Vắng có phép","Vắng không phép","Số buổi","Tỷ lệ"])];
+    rs.forEach(function(x,i){dong.push([i+1,x.h.ten].concat(bs.map(function(b){if(b.huy)return"nghỉ";if((b.ds||[]).indexOf(x.h.id)<0)return"";var v=(b.vang||{})[x.h.id];return v==="phep"?"P":v==="khong"?"K":"x"})).concat([x.r.co,x.r.phep,x.r.khong,x.r.tong,x.r.tyLe==null?"":Math.round(x.r.tyLe*100)+"%"]))});
+    var csv="﻿"+dong.map(function(r){return r.map(function(v){v=String(v);return/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(",")}).join("\n");
+    var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="hoc-them-"+n.ten.replace(/\s+/g,"-")+"-"+(ky==="all"?"ca-dot":ky)+".csv";document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500)};
+  $("#htIn").onclick=function(){var b=$("#htBangIn");if(!b){toast("Chưa có buổi học để in.");return}var w=window.open("","_blank");if(!w){toast("Trình duyệt chặn cửa sổ in.");return}
+    w.document.write('<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Theo dõi học thêm</title><style>body{font-family:"Times New Roman",serif;margin:16px}h1{font-size:18px;text-align:center;margin:0 0 4px}p{text-align:center;margin:0 0 12px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #000;padding:3px 4px;text-align:center}td.ten,th.ten{text-align:left;white-space:nowrap}th span{display:block;font-weight:400}</style></head><body><h1>BẢNG THEO DÕI HỌC THÊM: '+esc(n.ten.toUpperCase())+'</h1><p>'+esc(chuLop(L().ten))+' · '+(ky==="all"?"Cả đợt":hoa(tenThang(ky)))+'</p>'+b.innerHTML+'</body></html>');w.document.close();w.focus();setTimeout(function(){w.print()},300)};
+  function L(){return lopHT()}
+}
+/* --- Báo phụ huynh: vắng không phép buổi gần nhất, tổng kết tháng cho từng nhà --- */
+function htNhan(n){
+  var H=hoso(),bs=buoiCua(n.id).filter(function(b){return !b.huy}),gan=bs[bs.length-1],tv=thanhVien(n),loai=(LOAI_HT[n.loai]||"học thêm").toLowerCase();
+  var o='';
+  if(gan){var vk=tv.filter(function(h){return (gan.vang||{})[h.id]==="khong"});
+    o+='<h3 class="ht-h3">Vắng không phép buổi '+ngayVN(gan.ngay)+' ('+vk.length+')</h3>'+(vk.length?'<div class="msgs">'+vk.map(function(h){
+      var t=hoa(xungPH(h))+" ơi, buổi "+n.ten+" "+(n.gio?"lúc "+n.gio+" ":"")+"ngày "+ngayVN(gan.ngay)+" con "+tenGoi(h)+" không đến lớp mà "+H.xungHo+" chưa nhận được tin báo. "+hoa(xungPH(h))+" cho "+H.xungHo+" biết con có ổn không ạ? Buổi sau "+H.xungHo+" sẽ giúp con theo kịp phần đã học"+(gan.noiDung?" ("+gan.noiDung+")":"")+".\n"+chuKy();
+      return htHop(h,"htv_"+h.id,t)}).join("")+'</div>':'<p class="empty">Buổi gần nhất không có em nào vắng không phép.</p>')}
+  var thang=rHocThem.thangBao||thangCua(today());
+  var bT=bs.filter(function(b){return thangCua(b.ngay)===thang});
+  var thangs=[];bs.forEach(function(b){var t=thangCua(b.ngay);if(thangs.indexOf(t)<0)thangs.push(t)});if(thangs.indexOf(thang)<0)thangs.push(thang);thangs.sort().reverse();
+  o+='<div class="row between" style="margin-top:14px"><h3 class="ht-h3" style="margin:0">Tổng kết cho từng nhà</h3><select id="htTB" style="width:auto">'+thangs.map(function(t){return'<option value="'+t+'"'+(t===thang?" selected":"")+'>'+hoa(tenThang(t))+'</option>'}).join("")+'</select></div>';
+  var nd=bT.map(function(b){return b.noiDung}).filter(Boolean);
+  o+=bT.length?'<div class="msgs" style="margin-top:8px">'+tv.map(function(h){var r=chuyenCan(h.id,bT);if(!r.tong)return"";
+      var t=hoa(xungPH(h))+" ơi, "+H.xungHo+" gửi tình hình "+loai+" "+n.ten+" "+tenThang(thang)+" của con "+tenGoi(h)+":\n• Chuyên cần: "+(r.co===r.tong?"con đi đủ "+r.tong+"/"+r.tong+" buổi":"con đi "+r.co+"/"+r.tong+" buổi"+(r.phep?", vắng có phép "+r.phep:"")+(r.khong?", vắng không phép "+r.khong:""))+".\n"+
+        (nd.length?"• Nội dung đã học: "+nd.slice(-5).join("; ")+".\n":"")+
+        (r.co===r.tong?"Con rất chăm chỉ, "+H.xungHo+" khen con!":r.tyLe<0.8?"Nhờ "+xungPH(h)+" nhắc con đi học đều hơn để không bị hổng kiến thức ạ.":"Nhờ "+xungPH(h)+" tiếp tục động viên con ạ.")+"\n"+chuKy();
+      return htHop(h,"htt_"+h.id,t)}).join("")+'</div>':'<p class="empty">Chưa có buổi học nào trong '+tenThang(thang)+'.</p>';
+  $("#htThan").innerHTML='<div style="margin-top:12px">'+o+'</div>';
+  $("#htTB").onchange=function(){rHocThem.thangBao=this.value;render()};
+  ganZalo($("#htThan"));document.querySelectorAll("[data-htcp]").forEach(function(b){b.onclick=function(){copyText($("#"+b.dataset.htcp).textContent)}});
+}
+function htHop(h,id,t){return'<div class="msgbox"><div class="who"><span>'+esc(xungPH(h))+(h.phuHuynh?' ('+esc(h.phuHuynh)+')':'')+' <small>'+esc(h.sdt||"")+'</small></span><span class="row">'+nutZalo(h,id)+'<button class="btn small" data-htcp="'+id+'">Sao chép</button></span></div><div class="msg" id="'+id+'">'+esc(t)+'</div></div>'}
+/* --- Tạo, sửa nhóm học thêm --- */
+function formNhomHoc(id){
+  var o=id?Object.assign({},D.nhomhoc[id]):{ten:"",loai:"phuDao",lich:[],gio:"",hs:[],batDau:today()};var chon={};(o.hs||[]).forEach(function(k){chon[k]=1});var hs=hsLop();
+  modal(id?"Sửa nhóm học thêm":"Nhóm học thêm mới",
+    '<div class="grid2"><div class="field"><label>Tên nhóm *</label><input id="nhTen" value="'+esc(o.ten)+'" placeholder="ví dụ: Phụ đạo Toán"></div><div class="field"><label>Loại</label><select id="nhLoai">'+Object.keys(LOAI_HT).map(function(k){return'<option value="'+k+'"'+(o.loai===k?" selected":"")+'>'+LOAI_HT[k]+'</option>'}).join("")+'</select></div></div>'+
+    '<div class="field"><label>Học vào các thứ</label><div class="ht-thu">'+[1,2,3,4,5,6,0].map(function(d){return'<button type="button" data-thu="'+d+'" class="'+((o.lich||[]).indexOf(d)>=0?"on":"")+'">'+TEN_THU[d]+'</button>'}).join("")+'</div></div>'+
+    '<div class="grid2"><div class="field"><label>Giờ học</label><input id="nhGio" type="time" value="'+esc(o.gio||"")+'"></div><div class="field"><label>Bắt đầu từ ngày</label><input id="nhBd" type="date" value="'+esc(o.batDau||today())+'"></div></div>'+
+    '<div class="field"><label>Học sinh trong nhóm (<span id="nhDem">0</span>/'+hs.length+' em) · có thể để trống, khi điểm danh bấm em nào học thì em đó tự vào nhóm</label><div class="row"><input id="nhTim" placeholder="Tìm tên…" style="flex:1"><button type="button" class="btn small" id="nhHet">Chọn tất cả</button><button type="button" class="btn small" id="nhBo">Bỏ chọn</button></div>'+
+    '<div class="list" id="nhDs" style="max-height:38vh;margin-top:6px">'+hs.map(function(h,i){return'<button type="button" class="li'+(chon[h.id]?" on":"")+'" data-nh="'+h.id+'" data-ten="'+esc((h.ten||"").toLowerCase())+'"><span class="stt">'+(i+1)+'</span><span class="box">'+(chon[h.id]?"✓":"")+'</span><span class="nm"><b>'+esc(h.ten)+'</b></span></button>'}).join("")+'</div></div>'+
+    (id?'<div class="row"><button type="button" class="btn small" id="nhDong">Kết thúc nhóm (ẩn đi, giữ số liệu)</button><button type="button" class="btn small danger" id="nhXoa">Xóa nhóm và các buổi</button></div>':'')+'<p class="err" id="nhLoi"></p>',
+    [{t:"Hủy"},{t:"Lưu nhóm",cls:"primary",keep:true,fn:function(){
+      var ten=$("#nhTen").value.trim();if(!ten){$("#nhLoi").textContent="Cô đặt tên nhóm giúp nhé.";return}
+      var lich=[];document.querySelectorAll("[data-thu].on").forEach(function(b){lich.push(+b.dataset.thu)});
+      var ds=hs.filter(function(h){return chon[h.id]}).map(function(h){return h.id});
+      var ma=id||newId();save("nhomhoc",ma,Object.assign({},o,{lop:lopId,ten:ten,loai:$("#nhLoai").value,lich:lich,gio:$("#nhGio").value,batDau:$("#nhBd").value||today(),hs:ds}));
+      rHocThem.nhom=ma;closeModal();toast(id?"Đã lưu nhóm.":"Đã tạo nhóm "+ten+" ("+ds.length+" em).")}}]);
+  function dem(){$("#nhDem").textContent=Object.keys(chon).filter(function(k){return chon[k]}).length}dem();
+  function ve(b){var on=!!chon[b.dataset.nh];b.classList.toggle("on",on);b.querySelector(".box").textContent=on?"✓":""}
+  document.querySelectorAll("[data-nh]").forEach(function(b){b.onclick=function(){chon[b.dataset.nh]=!chon[b.dataset.nh];ve(b);dem()}});
+  document.querySelectorAll("[data-thu]").forEach(function(b){b.onclick=function(){b.classList.toggle("on")}});
+  $("#nhTim").oninput=function(){var q=this.value.trim().toLowerCase();document.querySelectorAll("[data-nh]").forEach(function(b){b.style.display=!q||b.dataset.ten.indexOf(q)>=0?"":"none"})};
+  $("#nhHet").onclick=function(){document.querySelectorAll("[data-nh]").forEach(function(b){if(b.style.display!=="none"){chon[b.dataset.nh]=true;ve(b)}});dem()};
+  $("#nhBo").onclick=function(){chon={};document.querySelectorAll("[data-nh]").forEach(ve);dem()};
+  var dg=$("#nhDong");if(dg)dg.onclick=function(){save("nhomhoc",id,Object.assign({},o,{dong:true}));closeModal();toast("Đã kết thúc nhóm "+o.ten+".")};
+  var xo=$("#nhXoa");if(xo)xo.onclick=function(){xacNhan("Xóa nhóm "+o.ten+" và toàn bộ "+buoiCua(id).length+" buổi đã điểm danh? Không hoàn tác được.",function(){buoiCua(id).forEach(function(b){remove("buoihoc",b.id)});remove("nhomhoc",id);closeModal();toast("Đã xóa nhóm.")})};
 }
 
 
@@ -739,9 +978,10 @@ function moDuLieu(){
     '<p class="note">'+(NGUOI?'Dữ liệu lưu trong tài khoản của cô và một bản trên máy này để dùng được khi mất mạng.':'Hiện dữ liệu chỉ lưu trên trình duyệt của máy này.')+' Cô vẫn có thể <b>sao lưu ra tệp</b> để cất giữ riêng.</p>'+
     '<div class="detail"><dl><dt>Số bản ghi</dt><dd>'+soBanGhi()+'</dd><dt>Sao lưu ra tệp gần nhất</dt><dd>'+(sl?ngayVN(sl.toISOString().slice(0,10)):'chưa có')+'</dd></dl></div>'+
     '<div class="row"><button class="btn" id="dlSao">Tải tệp sao lưu</button><label class="btn" for="dlTep" style="cursor:pointer">Khôi phục từ tệp</label><input type="file" id="dlTep" accept=".json,application/json" hidden></div>'+
+    (typeof trangThaiThamGia==="function"&&coCauHinhMay()?'<div class="detail" style="margin-top:8px"><dl><dt>Chương trình dùng thử</dt><dd>'+trangThaiThamGia()+'</dd></dl></div><div class="row"><button class="btn" id="dlGopY">Góp ý cho sổ</button><button class="btn" id="dlThamGia">'+(tkDongY()==="co"?"Dừng tham gia":"Tham gia dùng thử")+'</button></div><p class="note">Dùng thử chỉ đếm số lần sử dụng, không ghi nội dung tin nhắn, tên học sinh hay số điện thoại phụ huynh.</p>':'')+
     '<p class="note" style="margin-top:6px">Muốn làm lại từ đầu (xóa lớp mẫu, xóa mọi lớp và học sinh):</p><div class="row"><button class="btn danger" id="dlXoaHet">Xóa toàn bộ dữ liệu</button></div>',[{t:"Đóng"}]);
   $("#dlSao").onclick=saoLuu;$("#dlTep").onchange=function(){if(this.files[0])khoiPhuc(this.files[0])};
-  $("#dlXoaHet").onclick=xoaToanBo;var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuat;
+  $("#dlXoaHet").onclick=xoaToanBo;var gy=$("#dlGopY");if(gy)gy.onclick=function(){closeModal();moKhaoSat()};var tg=$("#dlThamGia");if(tg)tg.onclick=function(){var co=tkDongY()!=="co";if(co&&!NGUOI){toast("Cô đăng nhập Google trước rồi tham gia nhé.");return}datThamGia(co);closeModal()};var a=$("#dlVao");if(a)a.onclick=dangNhapGoogle;var r=$("#dlRa");if(r)r.onclick=dangXuat;
 }
 // Khôi phục từ tệp khi đã đăng nhập: ghi luôn lên tài khoản
 function khoiPhucLenMay(){if(!(NGUOI&&FB))return;var len=[];Object.keys(D).forEach(function(b){Object.keys(D[b]).forEach(function(id){len.push([b+"__"+id,{b:b,id:id,v:sach(D[b][id])}])})});
@@ -756,6 +996,135 @@ function xoaToanBo(){
   });
 }
 
+/* ===== CHƯƠNG TRÌNH DÙNG THỬ: ĐẾM MỨC ĐỘ SỬ DỤNG (chỉ đếm số lần, không ghi nội dung) =====
+   Đếm: mở sổ, điểm danh, tin riêng gửi phụ huynh, tin nhóm lớp, thư cuối tuần, tin nhắc nộp, lời khen, nhắc nhở...
+   KHÔNG ghi: nội dung tin nhắn, tên học sinh, tên hay số điện thoại phụ huynh.
+   Số đếm giữ trên máy, chỉ gửi về khi cô đã đăng nhập Google VÀ đồng ý tham gia.
+   Lưu ở thongKe/<mã tài khoản>: { ten, truong, email, batDau, lanCuoi, tong:{...}, ngay:{ "2026-10-28":{...} }, khaoSat:{...} } */
+var TK_KHOA = LS + "-tk", TK_DONGY = LS + "-tk-dongy";
+var TEN_SO_DEM = {
+  moSo: "Mở sổ", diemDanh: "Điểm danh", tinRieng: "Tin riêng gửi phụ huynh", tinNhom: "Tin nhóm lớp",
+  thuTuan: "Thư cuối tuần", nhacNop: "Tin nhắc nộp", ghiSo: "Lần ghi sổ", soEmGhi: "Lượt em được ghi",
+  khen: "Lời khen", nhacNho: "Việc chưa tốt", suKienKhac: "Việc khác", thongBao: "Thông báo theo dõi",
+  capNhatDS: "Lần tải danh sách", suaMau: "Lần sửa mẫu tin", hocThem: "Buổi học thêm điểm danh"
+};
+function tkDoc() { try { return JSON.parse(localStorage.getItem(TK_KHOA)) || { cho: {} } } catch (e) { return { cho: {} } } }
+function tkGhi(o) { try { localStorage.setItem(TK_KHOA, JSON.stringify(o)) } catch (e) {} }
+function tkDongY() { try { return localStorage.getItem(TK_DONGY) } catch (e) { return null } }
+// Cộng thêm n vào một số đếm của hôm nay (giữ trên máy, chờ gửi)
+function dem(ten, n) {
+  if (tkDongY() === "khong") return;
+  n = n || 1; var o = tkDoc(), d = today();
+  o.cho[d] = o.cho[d] || {}; o.cho[d][ten] = (o.cho[d][ten] || 0) + n;
+  o.ngayDung = o.ngayDung || {}; if (ten !== "moSo") o.ngayDung[d] = 1;
+  if (!o.batDau) o.batDau = d;
+  tkGhi(o);
+}
+// Số ngày cô có làm việc với sổ (không tính chỉ mở ra xem)
+function soNgayDung() { return Object.keys(tkDoc().ngayDung || {}).length }
+
+/* Nhận biết việc cô vừa làm qua nút được bấm (bắt trước khi trang vẽ lại) */
+document.addEventListener("click", function (e) {
+  var t = e.target.closest && e.target.closest("button,a"); if (!t) return;
+  var trongHop = !!t.closest("#modalRoot");
+  if (t.id === "ddLuu") dem("diemDanh");
+  else if (t.id === "htLuu") dem("hocThem");
+  else if (t.id === "btnGhiGui" || t.id === "btnGhi") { var so = parseInt((t.textContent.match(/\d+/) || ["1"])[0], 10); dem("ghiSo"); dem("soEmGhi", so) }
+  else if (t.id === "clCopy" || t.dataset.zalo === "tinNhom") dem("tinNhom");
+  else if (t.id === "tbThem") dem("thongBao");
+  else if (t.id === "mauThem" || t.dataset.msua) dem("suaMau");
+  else if (t.dataset.cp2 || (t.dataset.zalo && trongHop)) dem("nhacNop");
+  else if (t.dataset.zalo || t.dataset.cp || t.dataset.gui) dem(tab === "tuan" ? "thuTuan" : "tinRieng");
+  else if (trongHop && /^Áp dụng/.test(t.textContent.trim())) dem("capNhatDS");
+}, true);
+
+/* Đếm lời khen và việc chưa tốt khi một việc mới được ghi vào sổ */
+var saveGoc = save;
+save = function (t, id, obj) {
+  if (t === "sukien" && !D.sukien[id] && obj) dem(KHEN[obj.loai] ? "khen" : XAU[obj.loai] ? "nhacNho" : "suKienKhac");
+  return saveGoc.apply(this, arguments);
+};
+
+/* Gửi số đếm về tài khoản */
+function khoThongKe() { return FB.collection("thongKe").doc(NGUOI.uid) }
+var dangGuiTK = false;
+function guiThongKe() {
+  if (dangGuiTK || !(NGUOI && FB) || tkDongY() !== "co") return;
+  var o = tkDoc(), cho = o.cho || {}, ngays = Object.keys(cho), inc = firebase.firestore.FieldValue.increment;
+  var H = hoso(), lop = lopHT && lopHT(), tr = lop ? truongTen(lop.truong) : "";
+  var goi = {
+    ten: (H.xungHo || "cô") + " " + (H.giaoVien || ""), email: NGUOI.email || "", truong: tr,
+    soLop: vals("lop").length, soHocSinh: vals("hocsinh").length, coAnh: !!H.anh,
+    thietBi: laDienThoai ? "điện thoại" : "máy tính", batDau: o.batDau || today(),
+    lanCuoi: firebase.firestore.FieldValue.serverTimestamp(), dongY: true, ngay: {}, tong: {}
+  };
+  ngays.forEach(function (d) {
+    goi.ngay[d] = {};
+    Object.keys(cho[d]).forEach(function (k) { goi.ngay[d][k] = inc(cho[d][k]); goi.tong[k] = inc(tongCho(cho, k)) });
+  });
+  dangGuiTK = true;
+  khoThongKe().get().then(function (s) {
+    if (s.exists && s.data().batDau) delete goi.batDau;   // giữ ngày bắt đầu đầu tiên
+    return khoThongKe().set(goi, { merge: true });
+  }).then(function () {
+    var moi = tkDoc(); ngays.forEach(function (d) { delete moi.cho[d] }); tkGhi(moi);
+  }).catch(function () {}).then(function () { dangGuiTK = false });
+}
+function tongCho(cho, k) { return Object.keys(cho).reduce(function (s, d) { return s + (cho[d][k] || 0) }, 0) }
+setInterval(guiThongKe, 60000);
+document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") guiThongKe() });
+
+/* Hỏi cô có tham gia chương trình dùng thử không (một lần) */
+function hoiThamGia() {
+  if (!(NGUOI && FB) || tkDongY() || $("#modalRoot").innerHTML || !daVaoSo) return;
+  modal("Mời cô tham gia dùng thử",
+    '<p>Sổ Liên Lạc Của Cô đang trong giai đoạn <b>dùng thử miễn phí</b>. Để biết sổ có thật sự giúp được các cô hay không, sổ xin được <b>đếm số lần sử dụng</b>:</p>' +
+    '<ul class="tk-ds"><li>Số ngày cô dùng sổ, số lần điểm danh</li><li>Số tin nhắn riêng, tin nhóm lớp, thư cuối tuần cô đã gửi</li><li>Số lời khen, số việc chưa tốt đã ghi</li><li>Tên cô, trường, số lớp, số học sinh</li></ul>' +
+    '<p class="note"><b>Sổ không ghi</b> nội dung tin nhắn, tên học sinh, tên hay số điện thoại phụ huynh. Cô có thể dừng tham gia bất cứ lúc nào trong mục <b>Dữ liệu của cô</b>.</p>',
+    [{ t: "Không tham gia", fn: function () { datThamGia(false) } }, { t: "Đồng ý tham gia", cls: "primary", fn: function () { datThamGia(true) } }]);
+}
+function datThamGia(co) {
+  try { localStorage.setItem(TK_DONGY, co ? "co" : "khong") } catch (e) {}
+  if (co) { guiThongKe(); toast("Cảm ơn cô đã tham gia dùng thử!") }
+  else { tkGhi({ cho: {} }); if (NGUOI && FB) khoThongKe().set({ dongY: false, ten: (hoso().xungHo || "cô") + " " + (hoso().giaoVien || "") }, { merge: true }).catch(function () {}) }
+}
+
+/* Khảo sát ngắn: tự mời sau khi cô đã dùng ít nhất 5 ngày làm việc; hoặc cô tự mở bất cứ lúc nào */
+function nenMoiKhaoSat() {
+  if (tkDongY() !== "co" || !NGUOI) return false;
+  try { if (localStorage.getItem(LS + "-ks-xong")) return false; var hoan = localStorage.getItem(LS + "-ks-hoan"); if (hoan && hoan > today()) return false } catch (e) {}
+  return soNgayDung() >= 5;
+}
+function ganMoiKhaoSat() {
+  if (!nenMoiKhaoSat() || tab === "huongdan") return;
+  $("#main").insertAdjacentHTML("afterbegin", '<div class="banner ok"><span><b>Cô dùng sổ được một thời gian rồi.</b> Cô dành 1 phút cho 4 câu hỏi để sổ tốt hơn nhé?</span><span class="row"><button class="btn small" id="ksSau">Để sau</button><button class="btn small primary" id="ksMo">Trả lời</button></span></div>');
+  $("#ksMo").onclick = moKhaoSat;
+  $("#ksSau").onclick = function () { try { localStorage.setItem(LS + "-ks-hoan", congNgay(today(), 3)) } catch (e) {} render() };
+}
+function moKhaoSat() {
+  function thang(id, tieuDe, nhan) {
+    return '<div class="field"><label>' + tieuDe + '</label><div class="ks-thang" id="' + id + '">' + [1, 2, 3, 4, 5].map(function (i) { return '<button type="button" data-v="' + i + '">' + i + '</button>' }).join("") + '</div><div class="ks-nhan"><span>' + nhan[0] + '</span><span>' + nhan[1] + '</span></div></div>' }
+  modal("Cô thấy sổ thế nào?",
+    thang("ksHuuIch", "1. Sổ có giúp cô tiết kiệm thời gian liên lạc với phụ huynh không?", ["Không giúp gì", "Giúp rất nhiều"]) +
+    thang("ksPhuHuynh", "2. Phụ huynh phản hồi tin nhắn của cô thế nào so với trước?", ["Kém hơn", "Tốt hơn nhiều"]) +
+    thang("ksGioiThieu", "3. Cô có muốn giới thiệu sổ cho đồng nghiệp không?", ["Không", "Chắc chắn có"]) +
+    '<div class="field"><label>4. Cô thích nhất điều gì, và muốn sổ thêm gì?</label><textarea id="ksYKien" rows="3" placeholder="Cô viết vài dòng…"></textarea></div><p class="err" id="ksLoi"></p>',
+    [{ t: "Đóng" }, { t: "Gửi ý kiến", cls: "primary", keep: true, fn: function () {
+      var v = {}; ["ksHuuIch", "ksPhuHuynh", "ksGioiThieu"].forEach(function (k) { var b = $("#" + k + " .on"); v[k] = b ? +b.dataset.v : 0 });
+      if (!v.ksHuuIch || !v.ksPhuHuynh || !v.ksGioiThieu) { $("#ksLoi").textContent = "Cô chọn điểm cho 3 câu đầu giúp nhé."; return }
+      var ks = { huuIch: v.ksHuuIch, phuHuynh: v.ksPhuHuynh, gioiThieu: v.ksGioiThieu, yKien: $("#ksYKien").value.trim().slice(0, 1000), luc: today(), soNgayDung: soNgayDung() };
+      try { localStorage.setItem(LS + "-ks-xong", today()) } catch (e) {}
+      if (NGUOI && FB) khoThongKe().set({ khaoSat: ks, ten: (hoso().xungHo || "cô") + " " + (hoso().giaoVien || "") }, { merge: true }).catch(function () {});
+      closeModal(); render(); toast("Cảm ơn cô đã góp ý!");
+    } }]);
+  document.querySelectorAll(".ks-thang").forEach(function (g) { g.querySelectorAll("button").forEach(function (b) { b.onclick = function () { g.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b) }) } }) });
+}
+
+/* Mỗi lần bấm "Vào sổ" ở trang bìa là một lần mở sổ */
+var vaoSoGoc = vaoSo;
+vaoSo = function () { if (!daVaoSo) dem("moSo"); vaoSoGoc(); setTimeout(hoiThamGia, 900) };
+function trangThaiThamGia() { var v = tkDongY(); return v === "co" ? "Đang tham gia dùng thử" : v === "khong" ? "Không tham gia" : "Chưa trả lời" }
+
 /* soạn tin */
 function chuKy(){var H=hoso(),L=lopHT()||{};return "— "+hoa(H.xungHo)+" "+H.giaoVien+(L.vaiTro==="bomon"?", giáo viên "+(L.mon||"bộ môn")+" lớp "+L.ten:", chủ nhiệm lớp "+L.ten)+", "+ngayVN(today())}
 function soanTin(h,sk,chiTiet,loiCo){
@@ -768,7 +1137,7 @@ function soanTin(h,sk,chiTiet,loiCo){
 }
 
 /* điều hướng */
-var TAB_THEM={tuan:1,lop:1,mau:1,huongdan:1};
+var TAB_THEM={tuan:1,hocthem:1,lop:1,mau:1,huongdan:1};
 function chonTab(t){tab=t;document.querySelectorAll("#nav button").forEach(function(x){x.classList.toggle("on",x.dataset.tab===t)});
   document.querySelectorAll("#navPhone button").forEach(function(x){x.classList.toggle("on",!!(x.dataset.tab===t||(x.dataset.tab==="them"&&TAB_THEM[t])))});
   var sh=$("#sheetThem");if(sh)sh.remove();window.scrollTo(0,0);render()}
@@ -777,7 +1146,7 @@ document.querySelectorAll("#navPhone button").forEach(function(b){b.onclick=func
   if(b.dataset.tab!=="them"){chonTab(b.dataset.tab);return}
   var sh=$("#sheetThem");if(sh){sh.remove();return}
   var d=document.createElement("div");d.id="sheetThem";d.className="sheet";
-  d.innerHTML=[["tuan","Thư cuối tuần"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"],["huongdan","Hướng dẫn sử dụng"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  d.innerHTML=[["tuan","Thư cuối tuần"],["hocthem","Học thêm"],["lop","Trường & lớp, cập nhật danh sách"],["mau","Mẫu tin nhắn"],["saoluu","Sao lưu / khôi phục dữ liệu"],["huongdan","Hướng dẫn sử dụng"]].map(function(x){return'<button data-t="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
   document.body.appendChild(d);d.querySelectorAll("[data-t]").forEach(function(x){x.onclick=function(){if(x.dataset.t==="saoluu"){var sh=$("#sheetThem");if(sh)sh.remove();moDuLieu();return}chonTab(x.dataset.t)}})}});
 // Đường dẫn mở Zalo với một số điện thoại; trả về null nếu số không hợp lệ
 function zaloLink(sdt){var d=String(sdt||"").replace(/\D/g,"");if(d.length<9)return null;if(d.charAt(0)==="0")d="84"+d.slice(1);return"https://zalo.me/"+d}
@@ -826,7 +1195,7 @@ function render(){
       '<div class="row">'+(canWrite?'<button class="btn primary" id="btnHoso">Bắt đầu: khai báo cô và lớp</button><button class="btn" id="btnMau">Xem thử với lớp mẫu</button>'+(coCauHinhMay()&&!NGUOI?'<button class="btn" id="btnGg">Đã dùng trên máy khác? Đăng nhập Google</button>':''):'<span class="note">Bạn đang ở chế độ chỉ xem.</span>')+'<button class="btn" id="btnHD">Hướng dẫn sử dụng</button></div></div>'+
       '<div class="feats"><div class="feat"><b>Nhắn đúng người, đúng giọng</b><span>"Mẹ Thảo Nguyên ơi…" — máy soạn, cô chỉ bấm gửi qua Zalo.</span></div><div class="feat"><b>Không quên việc nào</b><span>Điểm danh, chưa nộp tiền, chưa gửi tin: tất cả hiện thành việc chờ.</span></div><div class="feat"><b>Giữ thể diện cho con</b><span>Việc chưa tốt đi tin riêng; tin nhóm chỉ có số liệu và lời khen.</span></div><div class="feat"><b>Danh sách từ trường</b><span>Cập nhật từ trang tính của trường, không nhập tay.</span></div></div>';
     var b1=$("#btnHoso");if(b1)b1.onclick=function(){formHoso(function(){formLop()})};var b2=$("#btnMau");if(b2)b2.onclick=napMau;var b3=$("#btnGg");if(b3)b3.onclick=dangNhapGoogle;var b4=$("#btnHD");if(b4)b4.onclick=function(){chonTab("huongdan")};return}
-  ({diemdanh:rDiemDanh,nhan:rNhan,calop:rCaLop,tuan:rTuan,so:rSo,lop:rLop,mau:rMau})[tab]();ganNhacSaoLuu();setState();
+  ({diemdanh:rDiemDanh,nhan:rNhan,calop:rCaLop,tuan:rTuan,so:rSo,lop:rLop,mau:rMau,hocthem:rHocThem})[tab]();ganNhacHocThem();ganNhacSaoLuu();ganMoiKhaoSat();setState();
 }
 
 /* ===== ĐIỂM DANH ===== */
@@ -960,7 +1329,7 @@ function rTuan(){
     var mine=evs.filter(function(e){return e.hs===h.id});var vangP=0,vangK=0;dds.forEach(function(d){var v=(d.vang||{})[h.id];if(v==="phep")vangP++;if(v==="khong")vangK++});
     var khen=mine.filter(function(e){return KHEN[e.loai]}),xau=mine.filter(function(e){return XAU[e.loai]});
     var s=hoa(xungPH(h))+" ơi, "+H.xungHo+" gửi tóm tắt tuần "+ngayVN(tu)+" – "+ngayVN(den)+" của con "+tenGoi(h)+":\n";
-    s+="• Chuyên cần: "+(vangP+vangK?(vangP?"nghỉ có phép "+vangP+" buổi":"")+(vangP&&vangK?", ":"")+(vangK?"nghỉ không phép "+vangK+" buổi":""):"đi học đầy đủ")+".\n";
+    s+="• Chuyên cần: "+(vangP+vangK?(vangP?"nghỉ có phép "+vangP+" buổi":"")+(vangP&&vangK?", ":"")+(vangK?"nghỉ không phép "+vangK+" buổi":""):"đi học đầy đủ")+".\n"+dongHocThemTuan(h,tu,den);
     if(khen.length)s+="• Điểm sáng: "+khen.map(function(e){return (e.chiTiet||"được "+H.xungHo+" khen").replace(/^[\s,.:]+/,"")}).join("; ")+".\n";
     if(xau.length){var g={};xau.forEach(function(e){var k=skById(e.loai).ten;g[k]=(g[k]||0)+1});s+="• Cần cố gắng: "+Object.keys(g).map(function(k){return k.toLowerCase()+(g[k]>1?" ("+g[k]+" lần)":"")}).join(", ")+".\n"}
     if(!khen.length&&!xau.length&&!vangK)s+="• Tuần này con ổn định, không có gì "+H.xungHo+" phải nhắc.\n";
